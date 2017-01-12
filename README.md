@@ -139,4 +139,3 @@ target：当前元素
 
 * fastclick可以解决在手机上点击事件的300ms延迟
 * zepto的touch模块，tap事件也是为了解决在click的延迟问题
-test
