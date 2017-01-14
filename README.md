@@ -139,3 +139,227 @@ target：当前元素
 
 * fastclick可以解决在手机上点击事件的300ms延迟
 * zepto的touch模块，tap事件也是为了解决在click的延迟问题
+
+###触摸事件的响应顺序
+1. ontouchstart 
+2. ontouchmove 
+3. ontouchend 
+4. onclick
+解决300ms延迟的问题，也可以通过绑定ontouchstart事件，加快对事件的响应
+
+###什么是Retina 显示屏，带来了什么问题
+retina：一种具备超高像素密度的液晶屏，同样大小的屏幕上显示的像素点由1个变为多个，如在同样带下的屏幕上，苹果设备的retina显示屏中，像素点1个变为4个
+在高清显示屏中的位图被放大，图片会变得模糊，因此移动端的视觉稿通常会设计为传统PC的2倍
+那么，前端的应对方案是：
+设计稿切出来的图片长宽保证为偶数，并使用backgroud-size把图片缩小为原来的1/2
+```
+//例如设计图图片宽高为：200px*200px，那么写法如下
+.css{width:100px;height:100px;background-size:100px 100px;}
+```
+其它元素的取值为原来的1/2，例如视觉稿40px的字体，使用样式的写法为20px
+```
+.css{font-size:20px}
+```
+简单介绍下 devicePixelRatio ，它是设备上物理像素和设备独立像素( device-independent pixels (dips) )的比例，即 devicePixelRatio = 屏幕物理像素/设备独立像素 
+例如iPhone4S，分辨率为：960×640，取屏幕宽度计算，物理像素640px，设备独立像素320px，那么，devicePixelRatio 值为 640px / 320px = 2，又如iPhone3，计算出来的 devicePixelRatio 值为 320px / 320px = 1
+那么，通过计算 devicePixelRatio 的值，是可以区分普通显示屏和高清显示器，当devicePixelRatio值等于1时（也就是最小值），那么它普通显示屏，当devicePixelRatio值大于1(通常是1.5、2.0)，那么它就是高清显示屏
+
+通过判断 devicePixelRatio 的值来加载不同尺寸的图片
+1. 针对普通显示屏(devicePixelRatio = 1.0、1.3)，加载一张1倍的图片
+2. 针对高清显示屏(devicePixelRatio >= 1.5、2.0、3.0)，加载一张2倍大的图片
+```
+.css{/* 普通显示屏(设备像素比例小于等于1.3)使用1倍的图 */ 
+    background-image: url(img_1x.png);
+}
+@media only screen and (-webkit-min-device-pixel-ratio:1.5){
+.css{/* 高清显示屏(设备像素比例大于等于1.5)使用2倍图  */
+    background-image: url(img_2x.png);
+  }
+}
+```
+
+###ios系统中元素被触摸时产生的半透明灰色遮罩怎么去掉
+###部分android系统中元素被点击时产生的边框(遮罩)怎么去掉
+android用户点击一个链接，会出现一个边框或者半透明灰色遮罩, 不同生产商定义出来额效果不一样，可设置-webkit-tap-highlight-color的alpha值为0去除部分机器自带的效果
+```
+a,button,input,textarea{
+-webkit-tap-highlight-color: rgba(0,0,0,0;)
+}
+```
+###winphone系统a、input标签被点击时产生的半透明灰色背景怎么去掉
+```
+<meta name="msapplication-tap-highlight" content="no">
+```
+
+###webkit表单元素的默认外观怎么重置
+1. 通用
+```
+.css{-webkit-appearance:none;appearance:none; }
+```
+2. 伪元素改变number类型input框的默认样式
+```
+input[type=number]::-webkit-textfield-decoration-container {
+    background-color: transparent;    
+}
+input[type=number]::-webkit-inner-spin-button {
+     -webkit-appearance: none;
+}
+input[type=number]::-webkit-outer-spin-button {
+     -webkit-appearance: none;
+}
+```
+3. webkit表单输入框placeholder的颜色值能改变么
+```
+input::-webkit-input-placeholder{color:#AAAAAA;}
+input:focus::-webkit-input-placeholder{color:#EEEEEE;}
+```
+###IE10（winphone8）表单元素默认外观如何重置
+1. 禁用 radio 和 checkbox 默认样式
+::-ms-check 适用于表单复选框或单选按钮默认图标的修改，同样有多个属性值，设置它隐藏 (display:none) 并使用背景图片来修饰可得到我们想要的效果。
+```
+input[type=radio]::-ms-check,input[type=checkbox]::-ms-check{
+display: none;
+}
+```
+2. 禁用 select 默认下拉箭头
+::-ms-expand 适用于表单选择控件下拉箭头的修改，有多个属性值，设置它隐藏 (display:none) 并使用背景图片来修饰可得到我们想要的效果。
+```
+select::-ms-expand {
+display: none;
+}
+```
+###取消input在ios下，输入的时候英文首字母的默认大写
+```<input autocapitalize="off" autocorrect="off" />   ```
+
+###禁止ios 长按时不触发系统的菜单，禁止ios&android长按时下载图片
+```.css{-webkit-touch-callout: none}```
+###禁止ios和android用户选中文字
+```.css{-webkit-user-select:none}```
+
+###打电话发短信写邮件怎么实现
+打电话```<a href="tel:0755-10086">打电话给:0755-10086</a>```
+发短信，winphone系统无效```<a href="sms:10086">发短信给: 10086</a>```
+写邮件```<a href="mailto:peun@foxmail.com">peun@foxmail.com</a>```
+
+###模拟按钮hover效果
+移动端触摸按钮的效果，可明示用户有些事情正要发生，是一个比较好体验，但是移动设备中并没有鼠标指针，使用css的hover并不能满足我们的需求，还好国外有个激活移动端css的active效果。
+直接在body上添加ontouchstart，同样可激活移动端css的active效果，比较推荐这种方式，代码如下：
+```
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<style type="text/css">
+a{-webkit-tap-highlight-color: rgba(0,0,0,0);}
+.btn-blue{display:block;height:42px;line-height:42px;text-align:center;border-radius:4px;font-size:18px;color:#FFFFFF;background-color: #4185F3;}
+.btn-blue:active{background-color: #357AE8;}
+</style>
+</head>
+<body ontouchstart>
+<div class="btn-blue">按钮</div>
+//或者设置
+//<script type="text/javascript">
+//document.addEventListener("touchstart", function(){}, true)
+//</script>
+</body>
+</html>
+```
+
+要做到全兼容的办法，可通过绑定ontouchstart和ontouchend来控制按钮的类名
+```
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<style type="text/css">
+a{-webkit-tap-highlight-color: rgba(0,0,0,0);}
+.btn-blue{display:block;height:42px;line-height:42px;text-align:center;border-radius:4px;font-size:18px;color:#FFFFFF;background-color: #4185F3;}
+.btn-blue-on{background-color: #357AE8;}
+</style>
+</head>
+<body>
+
+<div class="btn-blue">按钮</div>
+
+<script type="text/javascript">
+var btnBlue = document.querySelector(".btn-blue");
+btnBlue.ontouchstart = function(){
+    this.className = "btn-blue btn-blue-on"
+}
+btnBlue.ontouchend = function(){
+    this.className = "btn-blue"
+}
+</script>
+</body>
+</html>
+```
+
+###屏幕旋转的事件和样式
+```
+window.onorientationchange = function(){
+    switch(window.orientation){
+        case -90:
+        case 90:
+        alert("横屏:" + window.orientation);
+        case 0:
+        case 180:
+        alert("竖屏:" + window.orientation);
+        break;
+    }
+}
+```
+```
+//竖屏时使用的样式
+@media all and (orientation:portrait) {
+.css{}
+}
+
+//横屏时使用的样式
+@media all and (orientation:landscape) {
+.css{}
+}
+```
+
+###audio元素和video元素在ios和andriod中无法自动播放
+   应对方案：触屏即播
+   ```
+   $('html').one('touchstart',function(){
+       audio.play()
+   })
+   ```
+###手机拍照和上传图片
+   ```
+   <!-- 选择照片 -->
+   <input type=file accept="image/*">
+   <!-- 选择视频 -->
+   <input type=file accept="video/*">
+   ```
+   使用总结：
+   *  ios 有拍照、录像、选取本地图片功能
+   * 部分android只有选取本地图片功能
+   * winphone不支持
+   * input控件默认外观丑陋
+   
+###开启硬件加速
+ 
+   解决页面闪白
+   保证动画流畅
+```
+.css {
+   -webkit-transform: translate3d(0, 0, 0);
+   -moz-transform: translate3d(0, 0, 0);
+   -ms-transform: translate3d(0, 0, 0);
+   transform: translate3d(0, 0, 0);
+}
+```
+
