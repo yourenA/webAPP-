@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .latest-items {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+            flex-flow: row wrap;
+            width: 650px;
+        }
+
+        .latest-item {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+            padding: 14px;
+            width: 255px;
+        }
+        .latest-item img {
+            /*margin: 0 auto;*/
+            width: 200px;
+            -webkit-align-self: center;
+            align-self: center;
+        }
+    </style>
+</head>
+<body>
+<div class="latest-items">
+    <div class="latest-item">
+        <img src="pic.jpg">
+        <h2>Using CSS3 multi-column layouts to split a list into columns</h2>
+        <div class="summary">How to use the new CSS multi-column layout feature to split a list across
+            multiple columns.</div>
+    </div>
+    <div class="latest-item">
+        <img src="pic2.png">
+        <h2></h2>
+        <div class="summary">Totaljobs is hiring .NET developers and senior .NET developers. Central
+            London. Agile teams. C#, TDD, MVC, twice weekly releases.</div>
+    </div>
+    <div class="latest-item">
+        <img src="pic2.png">
+        <h2>Web debugging on windows</h2>
+        <div class="summary">Some tools and techniques that make it much easier to debug what your
+            wayward application is doing.</div>
+    </div>
+    <div class="latest-item">
+        <img src="pic.jpg">
+        <h2>Javascript function declarations vs function operators</h2>
+        <div class="summary">A look at the differences between the javascript function declaration
+            and the function operator syntax.
+            A look at the differences between the javascript function declaration
+            and the function operator syntax.
+            A look at the differences between the javascript function declaration
+            and the function operator syntax.</div>
+    </div>
+</div>
+</body>
+</html>

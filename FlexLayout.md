@@ -1,36 +1,132 @@
 # Flex Layout
 ```
-.flex{
-            width:100%;
-            /*旧版语法*/
-            /*display: -webkit-box;*/
-            /*display: -ms-flexbox; */
-            /*display: -moz-box;*/
-
-            /*新版语法*/
-            /*display: -webkit-flex;*/
-            /*display: flex;*/
-
-            /*移动端+PC端*/
-            display: -webkit-box;       /*-IOS6以及以前：Safari3.1~6 */
-            display: -webkit-flex;      /* Chrome, WebKit  */
-            display: flex;              /* Firefox20+,Chrome40+, */
-        }
-        .flex .hor{
-            /*PC端*/
-            /*-webkit-box-flex: 1;*/
-            /*-moz-box-flex: 1;*/
-            /*-webkit-flex: 1;*/
-            /*-ms-flex: 1;*/
-            /*flex: 1;*/
-            /*移动端*/
-            -webkit-box-flex: 1;
-            -webkit-flex: 1;
-            flex: 1;
-        }
+.box{
+    display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box; /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox; /* 混合版本语法: IE 10 */
+    display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+    display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+}
+/*子元素主轴对齐方式*/
+.box{
+    -webkit-box-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+/*子元素交叉轴对齐方式*/
+.box{
+    -webkit-box-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+/*子元素的显示方向*/
+/*左到右*/
+.box{
+    -webkit-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -moz-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+/*右到左*/
+.box{
+    -webkit-box-pack: end;/*box 写法的 box-direction 只是改变了子元素的排序，并没有改变对齐方式，需要新增一个 box-pack 来改变对齐方式。*/
+    -webkit-box-direction: reverse;
+    -webkit-box-orient: horizontal;
+    -moz-flex-direction: row-reverse;
+    -webkit-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+}
 ```
 
 ## 容器的属性
+###旧版
+```
+.box{
+    display: -moz-box; /*Firefox*/
+    display: -webkit-box; /*Safari,Opera,Chrome*/
+    display: box;
+}
+```
+以下5个属性设置在容器上
+1. box-direction    //定义子元素的显示方向。
+    ```
+    .box{
+        -moz-box-direction: reverse; /*Firefox*/
+        -webkit-box-direction: reverse; /*Safari,Opera,Chrome*/
+        box-direction: reverse; /*normal | reverse | inherit;*/
+        /*显示方向：默认方向 | 反方向 | 继承子元素的 box-direction*/
+    }
+    ```
+2. box-pack     //定义了项目在**主轴**上的对齐方式。
+   ```
+   .box{
+       -moz-box-pack: center; /*Firefox*/
+       -webkit-box-pack: center; /*Safari,Opera,Chrome*/
+       box-pack: center;/*start | end | center | justify;*/
+       /*主轴对齐：左对齐（默认） | 右对齐 | 居中对齐 | 左右对齐*/
+   }
+   ```
+3. box-align    //定义项目在**交叉轴**上如何对齐
+    ```
+    .box{
+        -moz-box-align: center; /*Firefox*/
+        -webkit-box-align: center; /*Safari,Opera,Chrome*/
+        box-align: center;/*start | end | center | baseline | stretch;*/
+        /*交叉轴对齐：顶部对齐（默认） | 底部对齐 | 居中对齐 | 文本基线对齐 | 上下对齐并铺满*/
+    }
+    ```
+
+4. box-orient //box-orient定义子元素是否应水平或垂直排列。
+    ```
+    .box{
+        -moz-box-orient: horizontal; /*Firefox*/
+        -webkit-box-orient: horizontal; /*Safari,Opera,Chrome*/
+        box-orient: horizontal;/* horizontal | vertical | inline-axis | block-axis | inherit;*/
+        /*排列方向：水平 | 垂直 | 行内方式排列（默认） | 块方式排列 | 继承父级的box-orient*/
+    }
+    ```
+5. box-lines    //定义当子元素超出了容器是否允许子元素换行。
+    ```
+    .box{
+        -moz-box-lines: multiple; /*Firefox*/
+        -webkit-box-lines: multiple; /*Safari,Opera,Chrome*/
+        box-lines: multiple; /*single | multiple;*/
+        /*允许换行：不允许（默认） | 允许*/
+    }
+    ```
+###旧版项目属性
+1. box-flex 属性 //box-flex定义是否允许当前子元素伸缩
+```
+.item{
+    -moz-box-flex: 1.0; /*Firefox*/
+    -webkit-box-flex: 1.0; /*Safari,Opera,Chrome*/
+    box-flex: 1.0;
+}
+```
+2. box-ordinal-group 属性 //box-ordinal-group定义子元素的显示次序，数值越小越排前
+```
+.item{
+    -moz-box-ordinal-group: 1; /*Firefox*/
+    -webkit-box-ordinal-group: 1; /*Safari,Opera,Chrome*/
+    box-ordinal-group: 1;
+}
+```
+##新版
+```
+.box{
+    display: -webkit-flex; /*webkit*/
+    display: flex;
+}
+
+/*行内flex*/
+.box{
+    display: -webkit-inline-flex; /*webkit*/
+    display:inline-flex;
+}
+```
 以下6个属性设置在容器上
 
 1. flex-direction  //主轴方向
@@ -65,7 +161,7 @@
         space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。
         stretch（默认值）：轴线占满整个交叉轴。
 
-## 项目属性
+### 项目属性
 以下6个属性设置在项目上。
 1. order    //定义项目的排列顺序。数值越小，排列越靠前，默认为0。
 
