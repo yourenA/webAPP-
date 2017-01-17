@@ -13,6 +13,11 @@
 ```
 <meta name="format-detection" content="email=no" />
 ```
+* 允许全屏
+```
+"添加到主屏幕“后，全屏显示 <meta name="apple-mobile-web-app-capable" content="yes" />
+这meta的作用就是删除默认的苹果工具栏和菜单栏。content有两个值”yes”和”no”,当我们需要显示工具栏和菜单栏时，这个行meta就不用加了，默认就是显示。
+```
 * 当网站添加到主屏幕快速启动方式，可隐藏地址栏，仅针对ios的safari
 ```
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -27,7 +32,13 @@
 ```
 <meta http-equiv="Cache-Control" content="no-siteapp">
 ```
-
+* 添加到主屏后的APP图标
+```
+<!-- 设计原图 -->
+ <link href="short_cut_114x114.png" rel="apple-touch-icon-precomposed"> 
+<!-- 添加高光效果 -->
+ <link href="short_cut_114x114.png" rel="apple-touch-icon">
+```
 viewport模板
 viewport模板——通用
 ```
@@ -72,6 +83,14 @@ viewport模板 - target-densitydpi=device-dpi，android 2.3.5以下版本不支�
 ```
 > target-densitydpi：webkit内核已不准备再支持
 
+###动态设置HTML的字号
+```
+<script>
+    var iWidth = document.documentElement.clientWidth;
+    document.getElementsByTagName("html")[0].style.fontSize = iWidth / 3 + "px";
+</script>
+```
+使用rem进行设置宽高
 ###移动端如何定义字体font-family
 各个手机系统有自己的默认字体，且都不支持微软雅黑
 如无特殊需求，手机端无需定义中文字体，使用系统默认
@@ -231,7 +250,9 @@ display: none;
 ```
 ###取消input在ios下，输入的时候英文首字母的默认大写
 ```<input autocapitalize="off" autocorrect="off" />   ```
-
+###关闭iOS输入自动修正
+和英文输入默认自动首字母大写那样，IOS还做了一个功能，默认输入法会开启自动修正输入内容，这样的话，用户经常要操作两次。如果不希望开启此功能，我们可以通过input标签属性来关闭掉：
+```<input type="text" autocorrect="off" /> ```
 ###禁止ios 长按时不触发系统的菜单，禁止ios&android长按时下载图片
 ```.css{-webkit-touch-callout: none}```
 ###禁止ios和android用户选中文字
@@ -363,4 +384,6 @@ window.onorientationchange = function(){
    transform: translate3d(0, 0, 0);
 }
 ```
+
+###关闭iOS输入自动修正
 
