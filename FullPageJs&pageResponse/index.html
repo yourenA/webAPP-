@@ -1,0 +1,151 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>fullPage</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/fullPage.js/2.9.2/jquery.fullPage.min.css">
+    <style type="text/css">
+        /* ============================================================
+           样式重置
+           ============================================================ */
+        body, p, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, fieldset, legend, input, select, textarea, button, th, td {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-size: 100%;
+        }
+
+        ul, dl, ol {
+            list-style: none;
+        }
+
+        img, fieldset, input[type="submit"] {
+            border: 0 none;
+        }
+
+        img {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        em {
+            font-style: normal;
+        }
+
+        strong {
+            font-weight: normal;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        button, input[type="button"] {
+            cursor: pointer;
+            border: 0 none;
+        }
+
+        textarea {
+            word-wrap: break-word;
+            resize: none;
+        }
+
+        /* word-wrap for opera, resize for webkit */
+        menu {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            -webkit-user-select: none;
+            -webkit-text-size-adjust: none !important;
+            font-family: Helvetica;
+        }
+
+        input[type="number"] {
+            -webkit-user-select: text;
+        }
+
+        /* 1.ios 长按时不触发系统的菜单 2.禁止长按时下载图片 */
+        a, button, input, img {
+            -webkit-touch-callout: none;
+        }
+
+        input, select, textarea {
+            outline: none;
+        }
+
+        /*框架*/
+        html {
+            -ms-touch-action: none;
+        }
+
+        body {
+            color: #FFFFFF;
+        }
+
+        .section img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div id="pageContain" class="page-wrap">
+
+    <div class="section">
+        <div class="content3">
+            <img src="http://peunzhang.github.io/demo/pageResponse/demo0.jpg" alt="">
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="content3">
+            <img src="http://peunzhang.github.io/demo/pageResponse/demo1.jpg" alt="">
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="content3">
+            <img src="http://peunzhang.github.io/demo/pageResponse/demo2.jpg" alt="">
+        </div>
+    </div>
+</div>
+<!-- 框架]] -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/fullPage.js/2.9.2/jquery.fullPage.min.js"></script>
+<script src="pageResponse.min.js"></script>
+<script type="text/javascript">
+    $(window).resize(function(){
+        loadPageResponse();
+    });
+
+    $(document).ready(function(){
+        $("#pageContain").fullpage();
+        loadPageResponse();
+    });
+    function loadPageResponse () {
+        //iphone5
+        //如果视觉稿尺寸是640px*1136px，页面样式是以视觉稿尺寸除以2来计算，那么输入页面的宽度为320px和高度为px
+        //如果视觉稿尺寸是640px*1136，页面样式是以视觉稿原始尺寸来计算，那么输入页面的宽度为640px和高度为568px
+        pageResponse({
+            selectors: '.content1,.content2,.content3',     //模块选择器，使用querySelectorAll的方法
+            mode: 'contain',     // auto || contain || cover ，默认模式为auto
+            width: '640',      //输入页面的宽度，只支持输入数值，默认宽度为320px
+            height: '1136'      //输入页面的高度，只支持输入数值，默认高度为504px
+        })
+    }
+</script>
+
+
+</body>
+</html>

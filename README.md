@@ -385,5 +385,64 @@ window.onorientationchange = function(){
 }
 ```
 
-###关闭iOS输入自动修正
+##JS动态改变HTML的fontSize并且动态生成meta标签
+```
+<script>
+    (function (doc, win) {
+        // 分辨率Resolution适配
+        var docEl = doc.documentElement;//document根标签
+        var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';//判断事件类型
+        var recalc=function() { //事件回调
+            var clientWidth = docEl.clientWidth;//document的宽度
+            if (!clientWidth) return;
+            docEl.style.fontSize = 100 * (clientWidth / 320) + 'px'; //改变document（既HTML标签）的fontSize字号
+        };
+        /*监听事件*/
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
 
+        // 一物理像素在不同屏幕的显示效果不一样。要根据devicePixelRatio来修改meta标签的scale,要注释上面的meta标签
+        (function () {
+            var dpr = scale = 1;//将dpr与缩放比例都初始化为1
+            var isIPhone = win.navigator.appVersion.match(/iphone/gi);//判断是否是iphone
+            console.log( win.navigator.appVersion);
+            var devicePixelRatio = win.devicePixelRatio;
+            console.log("devicePixelRatio", devicePixelRatio);
+            console.log("isIPhone",isIPhone);
+            if (isIPhone) {
+                // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                if (devicePixelRatio >= 3 ) {
+                    dpr = 3;
+                } else if (devicePixelRatio >= 2 ) {
+                    dpr = 2;
+                } else {
+                    dpr = 1;
+                }
+            } else {
+                // 其他设备下，仍旧使用1倍的方案
+                dpr = 1;
+            }
+            /*页面缩放比例*/
+            scale = 1 / dpr;
+
+            //动态添加meta标签
+            var metaEl = "";
+            metaEl = doc.createElement('meta');
+            metaEl.setAttribute('name', 'viewport');
+            metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+            console.log(docEl.firstElementChild);
+
+            if (docEl.firstElementChild) {
+                docEl.firstElementChild.appendChild(metaEl);
+            } else {
+                var wrap = doc.createElement('div');
+                wrap.appendChild(metaEl);
+                doc.write(wrap.innerHTML);
+            }
+        })();
+
+    })(document, window);
+</script>
+
+```
