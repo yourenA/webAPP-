@@ -37,7 +37,10 @@
 <!-- 设计原图 -->
  <link href="short_cut_114x114.png" rel="apple-touch-icon-precomposed"> 
 <!-- 添加高光效果 -->
- <link href="short_cut_114x114.png" rel="apple-touch-icon">
+ <link rel="apple-touch-icon" href="touch-icon-iphone.png">
+ <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+ <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+ <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
 ```
 viewport模板
 viewport模板——通用
@@ -96,11 +99,25 @@ viewport模板 - target-densitydpi=device-dpi，android 2.3.5以下版本不支�
 如无特殊需求，手机端无需定义中文字体，使用系统默认
 英文字体和数字字体可使用 Helvetica ，三种系统都支持
 
+//简单版
 中文字体使用系统默认即可，英文用Helvetica
 ````
    /* 移动端定义字体的代码 */
    body{font-family:Helvetica;}
 ````
+
+//升级版
+```
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+
+}
+```
+iOS 4.0+ （iOS 9以下系统已经非常少） 使用英文字体 Helvetica Neue，之前的iOS版本降级使用 Helvetica。 中文字体设置为华文黑体STHeiTi。
+
+iOS 9+ Safari开始支持 -apple-system 参数， Chrome 使用 BlinkMacSystemFont ，兼容 iOS ／ MacOS
+
+微软雅黑是为了兼容Win系统，毕竟视网膜分辨率的win系统用Simsun是非常丑陋的。
 
 ###移动端字体单位font-size选择px还是rem
 对于只需要适配少部分手机设备，且分辨率对页面影响不大的，使用px即可
@@ -445,4 +462,132 @@ window.onorientationchange = function(){
     })(document, window);
 </script>
 
+```
+
+###实现1px的边框
+推荐使用transform：scale（0.5）
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .border-1px {
+            width: 100%;
+            height: 100px;
+            position: relative;
+        }
+        .border-1px:after {
+            position: absolute;
+            content: '';
+            top: -50%;
+            bottom: -50%;
+            left: -50%;
+            right: -50%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            border: 1px solid #666;
+        }
+    </style>
+</head>
+<body>
+<div class="border-1px"></div>
+</body>
+</html>
+```
+
+也可以使用border-image
+```
+.border-image-1px {
+    border-width: 1px 0px;
+    -webkit-border-image: url("border.png") 2 0 stretch;
+    border-image: url("border.png") 2 0 stretch;
+}
+```
+
+###media query 实现高清化
+目前兼容性最好的背景图高清化实现方式，使用media query的-webkit-min-device-pixel-ratio做判断：
+```
+/* 普通显示屏(设备像素比例小于等于1)使用1倍的图 */
+        .css{
+            background-image: url(img_1x.png);
+        }
+ 
+        /* 高清显示屏(设备像素比例大于等于2)使用2倍图  */
+        @media only screen and (-webkit-min-device-pixel-ratio:2){
+            .css{
+                background-image: url(img_2x.png);
+            }
+        }
+ 
+        /* 高清显示屏(设备像素比例大于等于3)使用3倍图  */
+        @media only screen and (-webkit-min-device-pixel-ratio:3){
+            .css{
+                background-image: url(img_3x.png);
+            }
+        }
+```
+
+###图片列表的自适应
+一种比较智能的列表方式是：两端对齐，间距自适应。
+那么可以使用FLEXBOX布局来实现两端对齐的效果，也可以使用text-align:justify的方式实现。
+```
+  ul{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    justify-content:space-between;
+  }
+  // text-align: justify;/*重要，可以使list两端分布对齐*/
+```
+
+###判断移动端是android还是iphone
+1、通过判断浏览器的userAgent，用正则来判断是否是ios和Android客户端。代码如下：
+```
+var u = navigator.userAgent;
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+alert('是否是Android：'+isAndroid);
+alert('是否是iOS：'+isiOS);
+```
+2、下面一个比较全面的浏览器检查函数，提供更多的检查内容，你可以检查是否是移动端（Mobile）、ipad、iphone、微信、QQ等。代码如下：
+```
+//判断访问终端
+var browser={
+    versions:function(){
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return {
+            trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
+            iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+            webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+            weixin: u.indexOf('MicroMessenger') > -1, //是否微信 
+            qq: u.match(/\sQQ/i) == " qq" //是否QQ
+        };
+    }(),
+    language:(navigator.browserLanguage || navigator.language).toLowerCase()
+}
+```
+使用方法：
+```
+//判断是否IE内核
+if(browser.versions.trident){ 
+alert("is IE"); 
+}
+//判断是否webKit内核
+if(browser.versions.webKit){ 
+alert("is webKit"); 
+}
+//判断是否移动端
+if(browser.versions.mobile||browser.versions.android||browser.versions.ios){ 
+alert("移动端"); 
+}
 ```

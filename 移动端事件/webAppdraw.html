@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--适应屏幕，禁止屏幕缩放-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    <title>移动设备上手指触摸屏幕画图</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #btn{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<button id="btn">清空</button>
+<script>
+    var doc = document,
+            //屏幕视口宽度
+            cWidth = window.innerWidth || doc.body.clientWidth || doc.documentElement.clientWidth,
+            //屏幕视口高度
+            cHeight = window.innerHeight || doc.body.clientHeight || doc.documentElement.clientHeight,
+            canID = doc.getElementById("canvas"),
+            btn = doc.getElementById("btn"),
+            startX, startY, endX, endY, sx, sy;
+    //设置画布的宽高为视口的宽高
+    canID.width = cWidth;
+    canID.height = cHeight;
+
+    function handler(event) {
+        switch (event.type) {
+            case "touchstart": //手指触摸屏幕时
+                //获取触摸屏幕的手指
+                var touches = event.targetTouches;
+                if (touches.length == 1) { //如果有一个手指在屏幕上时
+                    if (event.target === canID) { //事件目标是canvas
+                        //在触摸点画圆
+                        startX = touches[0].pageX;
+                        startY = touches[0].pageY;
+                        if (canID.getContext) {
+                            var ctx = canID.getContext("2d");
+                            ctx.beginPath();
+                            ctx.fillStyle = "chartreuse";
+                            ctx.moveTo(startX, startY);
+                            ctx.arc(startX, startY, 5, 0, 2 * Math.PI, false);
+                            ctx.fill();
+                        }
+                    } else if (event.target === btn) { //事件目标是button
+                        if (canID.getContext) {
+                            //清楚画布上的矩形区域
+                            var ctx = canID.getContext("2d");
+                            ctx.clearRect(0, 0, cWidth, cHeight);
+                        }
+                    }
+                }
+                break;
+            case "touchmove": //手指在屏幕上移动
+                event.preventDefault(); //阻止默认行为滚动
+                var touches = event.targetTouches;
+                if (touches.length == 1) {
+                    if (canID.getContext) {
+                        //绘制线条
+                        var ctx = canID.getContext("2d");
+                        ctx.beginPath();
+                        ctx.strokeStyle = "#FF0000";
+                        ctx.line = 3;
+                        if (endX == undefined && endY == undefined) { //触摸某个点第一次移动
+                            //以touchstart事件的位置为起点绘制线条
+                            endX = touches[0].pageX;
+                            endY = touches[0].pageY;
+                            ctx.moveTo(startX, startY);
+                            ctx.lineTo(endX, endY);
+                            ctx.stroke();
+                        } else {
+                            //以上一次touchmove事件的位置为起点绘制线条
+                            endX = touches[0].pageX;
+                            endY = touches[0].pageY;
+                            ctx.moveTo(sx, sy);
+                            ctx.lineTo(endX, endY);
+                            ctx.stroke();
+                        }
+                        sx = endX;
+                        sy = endY;
+                    }
+                }
+                break;
+            case "touchend": //手指从触摸屏上移开时
+                //重置endX和endY
+                endX = null;
+                endY = null;
+                break;
+        }
+    }
+    //事件委托，添加事件处理程序
+    doc.addEventListener("touchstart", handler, false);
+    doc.addEventListener("touchmove", handler, false);
+    doc.addEventListener("touchend", handler, false);
+</script>
+</body>
+ 
+</html>

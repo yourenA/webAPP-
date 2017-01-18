@@ -1,0 +1,88 @@
+<html><head>
+    <meta charset="utf-8">
+    <!--适应屏幕，禁止缩放-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>原生JS实现触摸左右上下滑动切换图片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #refreshTop,
+        #refreshbottom {
+            width: 100%;
+            text-align: center;
+            display: none;
+        }
+
+        #show,
+        .pre,
+        li {
+            width: 350px;
+            height: 250px;
+        }
+        #show {
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        #list {
+            width: 10000px;
+            height: 250px;
+            list-style-type: none;
+            position: absolute;
+            left: 0px;
+        }
+        #list li {
+            float: left;
+        }
+        #list2 {
+            position: absolute;
+            width: 350px;
+            text-align: center;
+            bottom: 5px;
+            list-style-type: none;
+            z-index: 100;
+        }
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+        }
+        .active {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+<!--刷新图标，当有新内容加载时，显示该图标，加载完成后图标隐藏-->
+<div id="refreshTop" style="display: none;">
+    <img src="http://y.dobit.top/upload/demo/20150828100555937500/touchlrtb/img/refresh.gif" align="center">刷新中
+</div>
+<div id="show">
+    <!--轮播图-->
+    <ul id="list" style="left: 0px;">
+        <li id="img"><img src="http://7xj89g.com1.z0.glb.clouddn.com/demo1.jpg?imageView2/2/w/400/q/50" class="pre"></li>
+        <li><img src="http://7xj89g.com1.z0.glb.clouddn.com/demo2.jpg?imageView2/2/w/400/q/50" class="pre"></li>
+        <li><img src="http://7xj89g.com1.z0.glb.clouddn.com/demo3.jpg?imageView2/2/w/400/q/50" class="pre"></li>
+    </ul>
+    <!--轮播图上的点-->
+    <ul id="list2">
+        <li class="dot active"></li>
+        <li class="dot"></li>
+        <li class="dot"></li>
+    </ul>
+</div>
+<!--刷新图标，当有新内容加载时，显示该图标，加载完成后图标隐藏-->
+<div id="refreshbottom" style="display: none;">
+    <img src="http://y.dobit.top/upload/demo/20150828100555937500/touchlrtb/img/refresh.gif" align="center">加载中
+</div>
+<script type="text/javascript" src="js/touchLRTB.js"></script>
+
+
+</body></html>
