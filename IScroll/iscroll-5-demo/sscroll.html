@@ -111,6 +111,15 @@
             font-size: 14px;
             position: relative;
         }
+        .list-btn{
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            background: #46115d;
+            position: absolute;
+            right: -80px;
+            top: 0;
+        }
         #scroller li::after {
             position: absolute;
             content: '';
@@ -120,7 +129,7 @@
             right: -50%;
             -webkit-transform: scale(0.5);
             transform: scale(0.5);
-            border-bottom: 1px solid #666;
+            border-bottom: 1px solid #aaa;
         }
         #pullDown, #pullUp {
             height: 60px;
@@ -192,7 +201,7 @@
             <div class="pullDownLabel">下拉刷新</div>
         </div>
         <ul id="add">
-            <li>Pretty row 1</li>
+            <li>Pretty row 1<div class="list-btn">删除</div></li>
             <li>Pretty row 2</li>
             <li>Pretty row 3</li>
             <li>Pretty row 4</li>
@@ -286,13 +295,11 @@
         pullDownL = pullDownEl.find('.pullDownLabel');
         pullDownEl['class'] = pullDownEl.attr('class');
         pullDownEl.attr('class', '').hide();//清空class,并隐藏
-        console.log(pullDownEl)
 
         pullUpEl = $('#pullUp');
         pullUpL = pullUpEl.find('.pullUpLabel');
         pullUpEl['class'] = pullUpEl.attr('class');
         pullUpEl.attr('class', '').hide();//清空class,并隐藏
-        console.log(pullUpEl);
 
         myScroll = new IScroll('#content', {
             probeType: 2,//probeType：1对性能没有影响。在滚动事件被触发时，滚动轴是不是忙着做它的东西。probeType：2总执行滚动，除了势头，反弹过程中的事件。这类似于原生的onscroll事件。probeType：3发出的滚动事件与到的像素精度。注意，滚动被迫requestAnimationFrame（即：useTransition：假）。
@@ -310,8 +317,6 @@
         myScroll.on('scroll', function () {
 
             if (loadingStep == 0 && !pullDownEl.attr('class').match('flip|loading') && !pullUpEl.attr('class').match('flip|loading')) {
-                console.log("this.y",this.y);
-                console.log("this.maxScrollY",this.maxScrollY);
                 if (this.y > 5) {/*当前判断向下拉，this.y为正。this.y this.x 当前的位置*/
                     //下拉刷新效果
                     pullDownEl.attr('class', pullUpEl['class'])
@@ -348,7 +353,63 @@
             }
         });
     }
+    var mylitouch = (function() {
+        var x, y, isMoved = true;
+        var changeImg = function() {
+        };
+        return { //返回对象
+            tStart: function(event) { //获取触摸到屏幕时的坐标
+                if (isMoved) {
+                    var touches = event.targetTouches;//获取event.targetTouches对象
+                    if (touches.length == 1) {
+                        x = touches[0].pageX;//获取坐标
+                        y = touches[0].pageY;
+                    }
+                    isMoved = false;
+                }
+            },
+            tMove: function(event) { //手指在屏幕上移动时触发左/右/上/下滑事件
+                event.preventDefault(); //默认事件滚动
+                if (!isMoved) { //只有手指第一次在屏幕上滑动时，并且满足响应条件，才触发左/右/上/下滑事件
+                    var touches = event.targetTouches;
+                    if (touches.length == 1) { //一个手指在屏幕上
+                        var x1 = touches[0].pageX, //移动到的坐标
+                                y1 = touches[0].pageY;
 
+                        if (((x1< x) && (Math.abs(y1 - y) < 20))) {
+                            $(event.target).css({
+                                left:-(x-x1)+'px'
+                            });
+                            if((x1 + 80) < x){
+                                isMoved = true;
+                                $(event.target).css({
+                                    left:'-80px'
+                                });
+                                console.log(event.target.textContent)
+                            }
+
+                        }
+                        if (((x1 - 30) > x) && (Math.abs(y1 - y) < 20)) { //触摸右滑动
+                            isMoved = true;
+                            $(event.target).css({
+                                left:'0px'
+                            })
+                            console.log(event.target.textContent)
+
+                        }
+                    }
+                }
+            },
+            changeImg: function() { //切换图片
+                changeImg();
+            },
+            tEnd: function() {
+            }
+        };
+    })();
+    $('#add li').on("touchstart", mylitouch.tStart);
+    $('#add li').on("touchmove", mylitouch.tMove);
+    $('#add li').on("touchend", mylitouch.tEnd);
 
     document.addEventListener('touchmove', function (e) {
         e.preventDefault();
