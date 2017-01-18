@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>touch on mobile</title>
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            -ms-touch-action: none;
+        }
+
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        body {
+            font-size: 12px;
+            font-family: ubuntu, helvetica, arial;
+            overflow: hidden;
+            /* this is important to prevent the whole page to bounce */
+        }
+
+        #header {
+            position: absolute;/*设为absolute，下面的footer，content也设为absolute*/
+            z-index: 2;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            background: #CD235C;
+            padding: 0;
+            color: #eee;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #footer {
+            position: absolute;
+            z-index: 2;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            background: #444;
+            padding: 0;
+            border-top: 1px solid #444;
+        }
+
+        #content {
+            position: absolute;
+            z-index: 1;
+            top: 45px;/*设置了top，bottom所以高度也就限制了*/
+            bottom: 48px;
+            left: 0;
+            width: 100%;
+            background: #ccc;
+            overflow: hidden;
+        }
+
+        #scroller {
+            position: absolute;
+            z-index: 1;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            width: 100%;
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -o-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            -o-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+
+        #scroller ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        #scroller li {
+            padding: 0 10px;
+            height: 40px;
+            line-height: 40px;
+          /*  border-bottom: 1px solid #ccc;
+            border-top: 1px solid #fff;*/
+            background-color: #fafafa;
+            font-size: 14px;
+            position: relative;
+        }
+        #scroller li::after {
+            position: absolute;
+            content: '';
+            top: -50%;
+            bottom: -50%;
+            left: -50%;
+            right: -50%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            border-bottom: 1px solid #666;
+        }
+        #pullDown, #pullUp {
+            height: 60px;
+            line-height: 60px;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+        }
+
+        #pullDown .pullDownIcon, #pullUp .pullUpIcon {
+            display: block;
+            float: left;
+            width: 40px;
+            height: 40px;
+            background: url(img/pull-icon@2x.png) 0 0 no-repeat;
+            -webkit-background-size: 40px 80px;
+            background-size: 40px 80px;
+            -webkit-transition-property: -webkit-transform;
+            -webkit-transition-duration: 250ms;
+        }
+
+        #pullDown .pullDownIcon {
+            -webkit-transform: rotate(0deg) translateZ(0);
+        }
+
+        #pullUp .pullUpIcon {
+            -webkit-transform: rotate(-180deg) translateZ(0);
+        }
+
+        #pullDown.flip .pullDownIcon {
+            -webkit-transform: rotate(-180deg) translateZ(0);
+        }
+
+        #pullUp.flip .pullUpIcon {
+            -webkit-transform: rotate(0deg) translateZ(0);
+        }
+
+        #pullDown.loading .pullDownIcon, #pullUp.loading .pullUpIcon {
+            background-position: 0 100%;
+            -webkit-transform: rotate(0deg) translateZ(0);
+            -webkit-transition-duration: 0ms;
+            -webkit-animation-name: loading;
+            -webkit-animation-duration: 2s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: linear;
+        }
+
+        @-webkit-keyframes loading{
+            from {
+                -webkit-transform: rotate(0deg) translateZ(0);
+            }
+            to {
+                -webkit-transform: rotate(360deg) translateZ(0);
+            }
+        }
+    </style>
+
+
+</head>
+<body onload="loaded()">
+<div id="header">iScroll</div>
+
+<div id="content">
+    <div id="scroller">
+        <div id="pullDown" class="ub ub-pc c-gra">
+            <div class="pullDownIcon"></div>
+            <div class="pullDownLabel">下拉刷新</div>
+        </div>
+        <ul id="add">
+            <li>Pretty row 1</li>
+            <li>Pretty row 2</li>
+            <li>Pretty row 3</li>
+            <li>Pretty row 4</li>
+            <li>Pretty row 5</li>
+            <li>Pretty row 6</li>
+            <li>Pretty row 7</li>
+            <li>Pretty row 8</li>
+            <li>Pretty row 9</li>
+            <li>Pretty row 10</li>
+            <li>Pretty row 11</li>
+            <li>Pretty row 12</li>
+            <li>Pretty row 13</li>
+            <li>Pretty row 14</li>
+            <li>Pretty row 15</li>
+            <li>Pretty row 16</li>
+            <li>Pretty row 17</li>
+            <li>Pretty row 18</li>
+            <li>Pretty row 19</li>
+            <li>Pretty row 20</li>
+            <li>Pretty row 21</li>
+            <li>Pretty row 22</li>
+            <li>Pretty row 23</li>
+            <li>Pretty row 24</li>
+            <li>Pretty row 25</li>
+            <li>Pretty row 26</li>
+            <li>Pretty row 27</li>
+            <li>Pretty row 28</li>
+            <li>Pretty row 29</li>
+            <li>Pretty row 30</li>
+            <li>Pretty row 31</li>
+            <li>Pretty row 32</li>
+            <li>Pretty row 33</li>
+        </ul>
+        <div id="pullUp" class="ub ub-pc c-gra">
+            <div class="pullUpIcon"></div>
+            <div class="pullUpLabel">上拉显示更多...</div>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+</body>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="iscroll-probe.js"></script>
+<script>
+    var myScroll;
+    var pullDownEl, pullDownL;
+    var pullUpEl, pullUpL;
+    var Downcount = 0, Upcount = 0;
+    var loadingStep = 0;//加载状态0默认，1显示加载状态，2执行加载数据，只有当为0时才能再次加载，这是防止过快拉动刷新
+    function pullDownAction() {//下拉事件
+        setTimeout(function () {
+            var el, li, i;
+            el = $('#add');
+            for (i = 0; i < 3; i++) {
+                li = $("<li></li>");
+                Downcount++;
+                li.text('new Add ' + Downcount + " ！");
+                el.prepend(li);
+            }
+            pullDownEl.removeClass('loading');
+            pullDownL.html('下拉显示更多...');
+            pullDownEl['class'] = pullDownEl.attr('class');
+            pullDownEl.attr('class', '').hide();
+            myScroll.refresh();
+            loadingStep = 0;
+        }, 1000); //1秒
+    }
+    function pullUpAction() {//上拉事件
+        setTimeout(function () {
+            var el, li, i;
+            el = $('#add');
+            for (i = 0; i < 3; i++) {
+                li = $("<li></li>");
+                Upcount++;
+                li.text('new Add ' + Upcount + " ！");
+                el.append(li);
+            }
+            pullUpEl.removeClass('loading');
+            pullUpL.html('上拉显示更多...');
+            pullUpEl['class'] = pullUpEl.attr('class');
+            pullUpEl.attr('class', '').hide();
+            myScroll.refresh();
+            loadingStep = 0;
+        }, 1000);
+    }
+
+    function loaded() {
+        pullDownEl = $('#pullDown');
+        pullDownL = pullDownEl.find('.pullDownLabel');
+        pullDownEl['class'] = pullDownEl.attr('class');
+        pullDownEl.attr('class', '').hide();//清空class,并隐藏
+        console.log(pullDownEl)
+
+        pullUpEl = $('#pullUp');
+        pullUpL = pullUpEl.find('.pullUpLabel');
+        pullUpEl['class'] = pullUpEl.attr('class');
+        pullUpEl.attr('class', '').hide();//清空class,并隐藏
+        console.log(pullUpEl);
+
+        myScroll = new IScroll('#content', {
+            probeType: 2,//probeType：1对性能没有影响。在滚动事件被触发时，滚动轴是不是忙着做它的东西。probeType：2总执行滚动，除了势头，反弹过程中的事件。这类似于原生的onscroll事件。probeType：3发出的滚动事件与到的像素精度。注意，滚动被迫requestAnimationFrame（即：useTransition：假）。
+            scrollbars: true,//有滚动条
+            mouseWheel: true,//允许滑轮滚动
+            fadeScrollbars: true,//滚动时显示滚动条，默认影藏，并且是淡出淡入效果
+            bounce: true,//边界反弹
+            interactiveScrollbars: true,//滚动条可以拖动
+            shrinkScrollbars: 'scale',// 当滚动边界之外的滚动条是由少量的收缩。'clip' or 'scale'.
+            click: true,// 允许点击事件
+            keyBindings: true,//允许使用按键控制
+            momentum: true// 允许有惯性滑动
+        });
+        //滚动时
+        myScroll.on('scroll', function () {
+
+            if (loadingStep == 0 && !pullDownEl.attr('class').match('flip|loading') && !pullUpEl.attr('class').match('flip|loading')) {
+                console.log("this.y",this.y);
+                console.log("this.maxScrollY",this.maxScrollY);
+                if (this.y > 5) {/*当前判断向下拉，this.y为正。this.y this.x 当前的位置*/
+                    //下拉刷新效果
+                    pullDownEl.attr('class', pullUpEl['class'])
+                    pullDownEl.show();
+                    myScroll.refresh();//刷新myScroll对象
+                    pullDownEl.addClass('flip');
+                    pullDownL.html('准备刷新...');
+                    loadingStep = 1;
+                } else if (this.y < (this.maxScrollY - 5)) {/*当前判断向上拉，this.y的绝对值变大，。this.maxScrollY当滚动到底部时的 myScroll.x/y滚动到地步this.y=maxScrollY*/
+                    //上拉刷新效果
+                    pullUpEl.attr('class', pullUpEl['class'])
+                    pullUpEl.show();
+                    myScroll.refresh();
+                    pullUpEl.addClass('flip');
+                    pullUpL.html('准备刷新...');
+                    loadingStep = 1;
+                }
+            }
+        });
+        //滚动完毕
+        myScroll.on('scrollEnd', function () {
+            if (loadingStep == 1) {
+                if (pullUpEl.attr('class').match('flip|loading')) {
+                    pullUpEl.removeClass('flip').addClass('loading');
+                    pullUpL.html('Loading...');
+                    loadingStep = 2;
+                    pullUpAction();
+                } else if (pullDownEl.attr('class').match('flip|loading')) {
+                    pullDownEl.removeClass('flip').addClass('loading');
+                    pullDownL.html('Loading...');
+                    loadingStep = 2;
+                    pullDownAction();
+                }
+            }
+        });
+    }
+
+
+    document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+    }, false);
+</script>
+</html>

@@ -506,7 +506,8 @@ window.onorientationchange = function(){
 }
 ```
 
-###media query 实现高清化
+###实现背景图高清化
+* media query
 目前兼容性最好的背景图高清化实现方式，使用media query的-webkit-min-device-pixel-ratio做判断：
 ```
 /* 普通显示屏(设备像素比例小于等于1)使用1倍的图 */
@@ -528,6 +529,17 @@ window.onorientationchange = function(){
             }
         }
 ```
+
+* background: image-set
+```
+.css{
+  background-image: url(no-image-set.png);
+  background: image-set(url(foo-lowres.png) 1x,url(foo-highres.png) 2x) center;
+}
+```
+1. 不支持image-set：在不支持image-set的浏览器下，他会支持background-image图像，也就是说不支持image-set的浏览器下，他们解析background-image中的背景图像；
+2. 支持image-set：如果你的浏览器支持image-sete，而且是普通显屏下，此时浏览器会选择image-set中的@1x背景图像；
+3. Retina屏幕下的image-set：如果你的浏览器支持image-set，而且是在Retina屏幕下，此时浏览器会选择image-set中的@2x背景图像。
 
 ###图片列表的自适应
 一种比较智能的列表方式是：两端对齐，间距自适应。
