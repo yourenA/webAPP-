@@ -103,22 +103,38 @@
 
         #scroller li {
             padding: 0 10px;
-            height: 40px;
-            line-height: 40px;
+            height: 50px;
+            line-height: 50px;
           /*  border-bottom: 1px solid #ccc;
             border-top: 1px solid #fff;*/
             background-color: #fafafa;
             font-size: 14px;
             position: relative;
+            left: 0;/*！重要，要首先设置left,否则第一次动画不起作用*/
+            transition: left cubic-bezier(.68,.69,.11,.4) 0.2s;
+            -webkit-transition: left cubic-bezier(.68,.69,.11,.4) 0.2s;
         }
         .list-btn{
-            width: 80px;
-            height: 40px;
-            line-height: 40px;
-            background: #46115d;
+            text-align: center;
+            color: #e6e6e6;
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+
             position: absolute;
-            right: -80px;
+            right: -100px;
             top: 0;
+        }
+        .list-btn span{
+            display: inline-block;
+            width: 50%;
+            height: 100%;
+        }
+        .list-btn span:first-child{
+            background:#7D7171;
+        }
+        .list-btn span:last-child{
+            background: #ff5b2e;
         }
         #scroller li::after {
             position: absolute;
@@ -201,39 +217,22 @@
             <div class="pullDownLabel">下拉刷新</div>
         </div>
         <ul id="add">
-            <li>Pretty row 1<div class="list-btn">删除</div></li>
-            <li>Pretty row 2</li>
-            <li>Pretty row 3</li>
-            <li>Pretty row 4</li>
-            <li>Pretty row 5</li>
-            <li>Pretty row 6</li>
-            <li>Pretty row 7</li>
-            <li>Pretty row 8</li>
-            <li>Pretty row 9</li>
-            <li>Pretty row 10</li>
-            <li>Pretty row 11</li>
-            <li>Pretty row 12</li>
-            <li>Pretty row 13</li>
-            <li>Pretty row 14</li>
-            <li>Pretty row 15</li>
-            <li>Pretty row 16</li>
-            <li>Pretty row 17</li>
-            <li>Pretty row 18</li>
-            <li>Pretty row 19</li>
-            <li>Pretty row 20</li>
-            <li>Pretty row 21</li>
-            <li>Pretty row 22</li>
-            <li>Pretty row 23</li>
-            <li>Pretty row 24</li>
-            <li>Pretty row 25</li>
-            <li>Pretty row 26</li>
-            <li>Pretty row 27</li>
-            <li>Pretty row 28</li>
-            <li>Pretty row 29</li>
-            <li>Pretty row 30</li>
-            <li>Pretty row 31</li>
-            <li>Pretty row 32</li>
-            <li>Pretty row 33</li>
+            <li>Pretty row 1左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 2左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 3左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 4左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 5左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 6左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 7左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 8左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 9左滑看看<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看0<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看1<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看2<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看3<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看4<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看5<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看6<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
         </ul>
         <div id="pullUp" class="ub ub-pc c-gra">
             <div class="pullUpIcon"></div>
@@ -255,12 +254,14 @@
     var loadingStep = 0;//加载状态0默认，1显示加载状态，2执行加载数据，只有当为0时才能再次加载，这是防止过快拉动刷新
     function pullDownAction() {//下拉事件
         setTimeout(function () {
-            var el, li, i;
+            var el, li, i,liBtn;
             el = $('#add');
             for (i = 0; i < 3; i++) {
                 li = $("<li></li>");
+                liBtn=$("<div class='list-btn'><span>置顶</span><span>删除</span></div>");
                 Downcount++;
                 li.text('new Add ' + Downcount + " ！");
+                li.prepend(liBtn)
                 el.prepend(li);
             }
             pullDownEl.removeClass('loading');
@@ -273,12 +274,14 @@
     }
     function pullUpAction() {//上拉事件
         setTimeout(function () {
-            var el, li, i;
+            var el, li, i,liBtn;
             el = $('#add');
             for (i = 0; i < 3; i++) {
                 li = $("<li></li>");
+                liBtn=$("<div class='list-btn'><span>置顶</span><span>删除</span></div>");
                 Upcount++;
                 li.text('new Add ' + Upcount + " ！");
+                li.append(liBtn)
                 el.append(li);
             }
             pullUpEl.removeClass('loading');
@@ -354,65 +357,52 @@
         });
     }
     var mylitouch = (function() {
-        var x, y, isMoved = true;
-        var changeImg = function() {
-        };
+        var x, y, X, Y, swipeX, swipeY;
         return { //返回对象
             tStart: function(event) { //获取触摸到屏幕时的坐标
-                if (isMoved) {
-                    var touches = event.targetTouches;//获取event.targetTouches对象
-                    if (touches.length == 1) {
-                        x = touches[0].pageX;//获取坐标
-                        y = touches[0].pageY;
-                    }
-                    isMoved = false;
-                }
+                x = event.changedTouches[0].pageX;
+                y = event.changedTouches[0].pageY;
+                swipeX = true;
+                swipeY = true ;
             },
             tMove: function(event) { //手指在屏幕上移动时触发左/右/上/下滑事件
-                event.preventDefault(); //默认事件滚动
-                if (!isMoved) { //只有手指第一次在屏幕上滑动时，并且满足响应条件，才触发左/右/上/下滑事件
-                    var touches = event.targetTouches;
-                    if (touches.length == 1) { //一个手指在屏幕上
-                        var x1 = touches[0].pageX, //移动到的坐标
-                                y1 = touches[0].pageY;
+                X = event.changedTouches[0].pageX;
+                Y = event.changedTouches[0].pageY;
 
-                        if (((x1< x) && (Math.abs(y1 - y) < 20))) {
-                            $(event.target).css({
-                                left:-(x-x1)+'px'
-                            });
-                            if((x1 + 80) < x){
-                                isMoved = true;
-                                $(event.target).css({
-                                    left:'-80px'
-                                });
-                                console.log(event.target.textContent)
-                            }
+                // 左右滑动
+                if(swipeX && Math.abs(X-x) - Math.abs(Y-y) > 0) {
 
-                        }
-                        if (((x1 - 30) > x) && (Math.abs(y1 - y) < 20)) { //触摸右滑动
-                            isMoved = true;
-                            $(event.target).css({
-                                left:'0px'
-                            })
-                            console.log(event.target.textContent)
+                    // 阻止事件冒泡
+                    event.stopPropagation();
 
-                        }
+                    if(X - x > 30) {
+                        event.preventDefault();
+                        this.style.left = '0px';
                     }
+                    if(x - X > 30) {
+                        event.preventDefault();
+                        this.style.left = '-100px';
+                    }
+                    swipeY = false;
+                }
+
+                // 上下滑动
+                if(swipeY && Math.abs(X-x) - Math.abs(Y-y) < 0) {
+                    swipeX = false;
                 }
             },
             changeImg: function() { //切换图片
-                changeImg();
             },
             tEnd: function() {
             }
         };
     })();
-    $('#add li').on("touchstart", mylitouch.tStart);
-    $('#add li').on("touchmove", mylitouch.tMove);
-    $('#add li').on("touchend", mylitouch.tEnd);
+    $(document).on("touchstart","#add li" ,mylitouch.tStart);
+    $(document).on("touchmove","#add li" ,mylitouch.tMove);
+    $(document).on("touchend", "#add li",mylitouch.tEnd);
 
-    document.addEventListener('touchmove', function (e) {
-        e.preventDefault();
-    }, false);
+    $(document).on('touchmove', function (event) {
+        event.preventDefault();
+    });
 </script>
 </html>
