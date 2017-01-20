@@ -27,7 +27,7 @@
 
         body {
             font-size: 12px;
-            font-family: ubuntu, helvetica, arial;
+            font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
             overflow: hidden;
             /* this is important to prevent the whole page to bounce */
         }
@@ -131,7 +131,7 @@
             height: 100%;
         }
         .list-btn span:first-child{
-            background:#7D7171;
+            background: #bab3ba;
         }
         .list-btn span:last-child{
             background: #ff5b2e;
@@ -233,6 +233,9 @@
             <li>Pretty row 1左滑看看4<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
             <li>Pretty row 1左滑看看5<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
             <li>Pretty row 1左滑看看6<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看6<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看6<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
+            <li>Pretty row 1左滑看看6<div class="list-btn"><span>置顶</span><span>删除</span></div></li>
         </ul>
         <div id="pullUp" class="ub ub-pc c-gra">
             <div class="pullUpIcon"></div>
@@ -314,7 +317,9 @@
             shrinkScrollbars: 'scale',// 当滚动边界之外的滚动条是由少量的收缩。'clip' or 'scale'.
             click: true,// 允许点击事件
             keyBindings: true,//允许使用按键控制
-            momentum: true// 允许有惯性滑动
+            momentum: true,// 允许有惯性滑动
+            preventDefault: false,//允许页面左击
+            preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }
         });
         //滚动时
         myScroll.on('scroll', function () {
@@ -360,47 +365,73 @@
         var x, y, X, Y, swipeX, swipeY;
         return { //返回对象
             tStart: function(event) { //获取触摸到屏幕时的坐标
-                x = event.changedTouches[0].pageX;
-                y = event.changedTouches[0].pageY;
+                if(event.type === 'touchstart'){
+                    x = event.changedTouches[0].pageX;
+                    y = event.changedTouches[0].pageY;
+                }else if(event.type === 'mousedown'){
+                    x = event.clientX;
+                    y = event.clientY;
+                }
                 swipeX = true;
                 swipeY = true ;
+
+
             },
             tMove: function(event) { //手指在屏幕上移动时触发左/右/上/下滑事件
-                X = event.changedTouches[0].pageX;
-                Y = event.changedTouches[0].pageY;
+                if(event.type === 'touchmove'){
+                    X = event.changedTouches[0].pageX;
+                    Y = event.changedTouches[0].pageY;
 
-                // 左右滑动
-                if(swipeX && Math.abs(X-x) - Math.abs(Y-y) > 0) {
+                    // 左右滑动
+                    if(swipeX && Math.abs(X-x) - Math.abs(Y-y) > 0) {
 
-                    // 阻止事件冒泡
-                    event.stopPropagation();
-
-                    if(X - x > 30) {
-                        event.preventDefault();
-                        this.style.left = '0px';
+                        if(X - x > 30) {
+                            this.style.left = '0px';
+                        }
+                        if(x - X > 30) {
+                            this.style.left = '-100px';
+                        }
+                        swipeY = false;
                     }
-                    if(x - X > 30) {
-                        event.preventDefault();
-                        this.style.left = '-100px';
+
+                    // 上下滑动
+                    if(swipeY && Math.abs(X-x) - Math.abs(Y-y) < 0) {
+                        swipeX = false;
                     }
-                    swipeY = false;
+                }else if(event.type === 'mousemove'){
                 }
 
-                // 上下滑动
-                if(swipeY && Math.abs(X-x) - Math.abs(Y-y) < 0) {
-                    swipeX = false;
+            },
+            tEnd: function(event) {
+                if(event.type === 'touchend'){
+                }else if(event.type === 'mouseup'){
+                    X = event.clientX;
+                    Y = event.clientY;
+                    // 左右滑动
+                    if(swipeX && Math.abs(X-x) - Math.abs(Y-y) > 0) {
+
+                        if(X - x > 30) {
+                            this.style.left = '0px';
+                        }
+                        if(x - X > 30) {
+                            this.style.left = '-100px';
+                        }
+                        swipeY = false;
+                    }
+                    // 上下滑动
+                    if(swipeY && Math.abs(X-x) - Math.abs(Y-y) < 0) {
+                        swipeX = false;
+                    }
                 }
-            },
-            changeImg: function() { //切换图片
-            },
-            tEnd: function() {
             }
         };
     })();
     $(document).on("touchstart","#add li" ,mylitouch.tStart);
     $(document).on("touchmove","#add li" ,mylitouch.tMove);
     $(document).on("touchend", "#add li",mylitouch.tEnd);
-
+    $(document).on("mousedown" ,"#add li",mylitouch.tStart);
+    $(document).on("mousemove","#add li" ,mylitouch.tMove);
+    $(document).on("mouseup", "#add li",mylitouch.tEnd);
     $(document).on('touchmove', function (event) {
         event.preventDefault();
     });
