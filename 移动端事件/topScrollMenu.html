@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        html {
+            width: 100%;
+            overflow: hidden;
+            font-size: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+
+        div {
+            width: 100%;
+            height: 2.5rem;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+        }
+
+        ul {
+            display: block;
+            position: absolute;
+            width: 200%;
+            /*transition: left cubic-bezier(.68,.69,.11,.4) 0.2s;*/
+            /*-webkit-transition: left cubic-bezier(.68,.69,.11,.4) 0.2s;*/
+        }
+
+        ul li {
+            list-style: none;
+            float: left;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            padding: 0 0.5rem;
+
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul id="ul">
+        <li><a href="">主页</a></li>
+        <li><a href="">国内</a></li>
+        <li><a href="">国际</a></li>
+        <li><a href="">娱乐</a></li>
+        <li><a href="">政治</a></li>
+        <li><a href="">科技</a></li>
+        <li><a href="">科技</a></li>
+        <li><a href="">科技</a></li>
+        <li><a href="">军事</a></li>
+        <li><a href="">天文地理</a></li>
+    </ul>
+</div>
+</body>
+<script>
+    var ul = document.querySelector('ul');
+    var lists=document.querySelectorAll('li');
+    var ulWidth=0;
+    for(var i=0;i<lists.length;i++){
+        ulWidth += lists[i].offsetWidth;
+    }
+    ul.style.width=ulWidth+'px';
+    var mylitouch = (function () {
+        var x, y, X, Y, swipeX, swipeY, moveX, offsetL;
+        return { //返回对象
+            tStart: function (event) { //获取触摸到屏幕时的坐标
+                if (event.type === 'touchstart') {
+                    x = event.changedTouches[0].pageX - this.offsetLeft;
+                    y = event.changedTouches[0].pageY - this.offsetTop;
+                } else if (event.type === 'mousedown') {
+                    x = event.clientX;
+                    y = event.clientY;
+                }
+                swipeX = true;
+                swipeY = true;
+                console.log("this.offsetLeft",this.offsetLeft)
+            },
+            tMove: function (event) { //手指在屏幕上移动时触发左/右/上/下滑事件
+                if (event.type === 'touchmove') {
+                    X = event.changedTouches[0].pageX;
+                    Y = event.changedTouches[0].pageY;
+                    var moveDistance = X - x;
+                    // 左右滑动
+                    if (swipeX && Math.abs(X - x) - Math.abs(Y - y) > 30) {
+                        this.style.left = moveDistance+ 'px';
+                        swipeY = false;
+                    }
+
+                    // 上下滑动
+                    if (swipeY && Math.abs(X - x) - Math.abs(Y - y) < 0) {
+                        swipeX = false;
+                    }
+                } else if (event.type === 'mousemove') {
+                }
+
+            },
+            tEnd: function (event) {
+                if (event.type === 'touchend') {
+                    if (parseInt(this.offsetLeft) > 0) {
+                        this.style.left = '0px'
+                    } else if (parseInt(this.offsetLeft) < parseInt(-(ulWidth - document.documentElement.offsetWidth))) {
+                        this.style.left = -(ulWidth - document.documentElement.offsetWidth) + 'px'
+                    }
+                } else if (event.type === 'mouseup') {
+                    X = event.clientX;
+                    Y = event.clientY;
+                    // 左右滑动
+                    if (swipeX && Math.abs(X - x) - Math.abs(Y - y) > 0) {
+
+                        if (X - x > 30) {
+                            this.style.left = '0px';
+                        }
+                        if (x - X > 30) {
+                            this.style.left = '-100px';
+                        }
+                        swipeY = false;
+                    }
+                    // 上下滑动
+                    if (swipeY && Math.abs(X - x) - Math.abs(Y - y) < 0) {
+                        swipeX = false;
+                    }
+                }
+            }
+        };
+    })();
+    document.querySelector('ul').addEventListener("touchstart", mylitouch.tStart, false);
+    document.querySelector('ul').addEventListener("touchmove", mylitouch.tMove, false);
+    document.querySelector('ul').addEventListener("touchend", mylitouch.tEnd, false);
+</script>
+</html>
