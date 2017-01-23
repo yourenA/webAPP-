@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>Title</title>
+</head>
+<body>
+由于 click 事件的滞后性，在这段时间内原来点击的元素消失了，于是便“穿透”了。因此我们顺着这个思路就想到，可以给元素的消失做一个fade效果，类似jQuery里的fadeOut，并设置动画duration大于300ms，这样当延迟的 click 触发时，就不会“穿透”到下方的元素了。
+
+同样的道理，不用延时动画，我们还可以动态地在触摸位置生成一个透明的元素，这样当上层元素消失而延迟的click来到时，它点击到的是那个透明的元素，也不会“穿透”到底下。在一定的timeout后再将生成的透明元素移除。
+
+</body>
+<script type="text/javascript">
+    Zepto(function($){
+        // 点击穿透
+        var $close = $('#closePopup');//关闭按钮
+        var $popup = $('#popupLayer');//弹出层
+        var $under = $('#underLayer');//底层
+        var $mask = $('#bgMask');//遮罩
+
+        // 遮挡物
+        var $tap = $('<div></div>');//动态生成一个透明元素
+        $tap.css({
+            width: '40px',
+            height: '40px',
+            'border-radius': '20px',
+            position: 'absolute',
+            opacity: '1'
+        });
+
+        $close.on('touchend', function(e){
+            $popup.hide();
+            $mask.hide();
+
+            var touch = e.changedTouches[0];
+            $tap.css({
+                top: (touch.pageY-20) + 'px',
+                left: (touch.pageX-20) + 'px'
+            });
+
+            $('body').append($tap);
+
+            setTimeout(function(){
+                $tap.remove();
+            }, 400);
+        });
+
+        $under.on('click', function(){
+            alert('underLayer clicked');
+        });
+
+    });
+</script>
+</html>

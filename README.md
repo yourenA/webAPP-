@@ -201,6 +201,10 @@ retina：一种具备超高像素密度的液晶屏，同样大小的屏幕上�
 例如iPhone4S，分辨率为：960×640，取屏幕宽度计算，物理像素640px，设备独立像素320px，那么，devicePixelRatio 值为 640px / 320px = 2，又如iPhone3，计算出来的 devicePixelRatio 值为 320px / 320px = 1
 那么，通过计算 devicePixelRatio 的值，是可以区分普通显示屏和高清显示器，当devicePixelRatio值等于1时（也就是最小值），那么它普通显示屏，当devicePixelRatio值大于1(通常是1.5、2.0)，那么它就是高清显示屏
 
+以iphone6为例：
+设备宽高为375×667，可以理解为设备独立像素(或css像素)。
+dpr为2，根据上面的计算公式，其物理像素就应该×2，为750×1334。
+
 通过判断 devicePixelRatio 的值来加载不同尺寸的图片
 1. 针对普通显示屏(devicePixelRatio = 1.0、1.3)，加载一张1倍的图片
 2. 针对高清显示屏(devicePixelRatio >= 1.5、2.0、3.0)，加载一张2倍大的图片

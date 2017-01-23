@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>多屏适配</title>
+    <script>
+        var dpr, rem, scale;
+        var docEl = document.documentElement;
+        var fontEl = document.createElement('style');
+        var metaEl = document.querySelector('meta[name="viewport"]');
+
+        dpr = window.devicePixelRatio || 1;
+        rem = docEl.clientWidth * dpr / 10;//基准值
+        scale = 1 / dpr;
+
+        // 设置viewport，进行缩放，达到高清效果
+        metaEl.setAttribute('content', 'width=' + dpr * docEl.clientWidth + ',initial-scale=' + scale + ',maximum-scale=' + scale + ', minimum-scale=' + scale + ',user-scalable=no');
+
+        // 设置data-dpr属性，留作的css hack之用
+        docEl.setAttribute('data-dpr', dpr);
+
+        // 动态写入样式
+        docEl.firstElementChild.appendChild(fontEl);
+        fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}';
+
+        // 给js调用的，某一dpr下rem和px之间的转换函数
+        window.rem2px = function (v) {
+            v = parseFloat(v);
+            return v * rem;
+        };
+        window.px2rem = function (v) {
+            v = parseFloat(v);
+            return v / rem;
+        };
+
+        window.dpr = dpr;
+        window.rem = rem;
+    </script>
+    <style>
+        /*字体方案*/
+        p {
+            font-size: 16px;
+        }
+
+        [data-dpr="2"] p {
+            font-size: 32px;
+        }
+
+        [data-dpr="3"] p {
+            font-size: 48px;
+        }
+
+        /*
+        为了方便，我们也会用less写一个mixin：
+
+        .px2px(@name, @px){
+            @{name}: round(@px / 2) * 1px;
+            [data-dpr="2"] & {
+                @{name}: @px * 1px;
+            }
+            // for mx3
+            [data-dpr="2.5"] & {
+                @{name}: round(@px * 2.5 / 2) * 1px;
+            }
+            // for 小米note
+            [data-dpr="2.75"] & {
+                @{name}: round(@px * 2.75 / 2) * 1px;
+            }
+            [data-dpr="3"] & {
+                @{name}: round(@px / 2 * 3) * 1px
+            }
+            // for 三星note4
+            [data-dpr="4"] & {
+                @{name}: @px * 2px;
+            }
+        }
+        */
+    </style>
+</head>
+<body>
+<p>
+
+
+前提条件：
+
+拿到的是一个针对iphone6的高清视觉稿 750×1334
+采用上述的高清方案(js代码)。
+如果有一个区块，在psd文件中量出：宽高750×300px的div，那么如何转换成rem单位呢？
+公式如下：
+
+rem = px / 基准值;
+
+所以，在确定了视觉稿(即确定了基准值)后，通常我们会用less写一个mixin，像这样：
+// 例如: .px2rem(height, 80);
+.px2rem(@name, @px){
+@{name}: @px / 75 * 1rem;
+}
+
+转换成html，就是这样：
+
+width: 10rem; // -> 750px
+height: 4rem; // -> 300px
+
+最后因为dpr为2，页面scale了0.5，所以在手机屏幕上显示的真实宽高应该是375×150px，就刚刚好。
+</p>
+</body>
+</html>
