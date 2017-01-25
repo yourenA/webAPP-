@@ -46,12 +46,12 @@
     color: #dfbac2;
     margin-top: 0.2rem;
     width: 5.13333rem;
-    border-radius: 25px;
+    border-radius: 0.3333rem;
     outline: none;
     border: 0;
     height: 0.86667rem;
     line-height: 0.86667rem;
-    padding-left: 0.93333rem;
+    padding: 0.233rem 0.93333rem;
     background: rgb(174, 62, 86) url("../image/search.png") no-repeat 0.24rem center;
     background-size: 0.586667rem;
 }
