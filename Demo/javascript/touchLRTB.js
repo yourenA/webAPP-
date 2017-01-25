@@ -152,6 +152,7 @@ var containertouch = (function () {
         },
         tEnd: function (event) {
             this.style.top = 0+ 'px';
+            alert(123)
         }
     };
 })();
