@@ -25,8 +25,9 @@ var carouseltouch = (function () {
     };
     return { //返回对象
         tStart: function (event) { //获取触摸到屏幕时的坐标
+            clearInterval(timer); //停止自动滚动图片
             if (isMoved) {
-                clearInterval(timer); //停止自动滚动图片
+
                 var touches = event.targetTouches;//获取event.targetTouches对象
                 if (touches.length == 1) {
                     x = touches[0].pageX;//获取坐标
@@ -42,12 +43,12 @@ var carouseltouch = (function () {
                 if (touches.length == 1) { //一个手指在屏幕上
                     var x1 = touches[0].pageX, //移动到的坐标
                         y1 = touches[0].pageY;
-                    if (((x1 + 30) < x) && (Math.abs(y1 - y) < 20)) { //触摸左滑动,Math.abs(y1 - y) 绝对值
+                    if (((x1 + 100) < x) && (Math.abs(y1 - y) < 100)) { //触摸左滑动,Math.abs(y1 - y) 绝对值
                         isMoved = true; //设置为true，手指在屏幕上连续滑动时，后面满足条件的移动不再触发该事件!import
                         //向左切换图片
                         changeImg();
                     }
-                    if (((x1 - 30) > x) && (Math.abs(y1 - y) < 20)) { //触摸右滑动
+                    if (((x1 - 100) > x) && (Math.abs(y1 - y) < 100)) { //触摸右滑动
                         isMoved = true;
                         //向右切换图片
                         dots[i].className = "dot";
@@ -106,7 +107,6 @@ var brandlitouch = (function () {
             }
         },
         tEnd: function (event) {
-            console.log("end")
             if (parseInt(this.offsetLeft) > 0) {
                 this.style.left = '0px'
             } else if (parseInt(this.offsetLeft) < parseInt(-(brandUlWidth - document.documentElement.offsetWidth))) {
@@ -140,19 +140,15 @@ var containertouch = (function () {
             X = event.changedTouches[0].pageX;
             Y = event.changedTouches[0].pageY;
             var moveDistance = Y - y;
-            // 左右滑动
-            if (swipeX && Math.abs(X - x) - Math.abs(Y - y) > 30) {
-                swipeY = false;
-            }
             // 上下滑动
-            if (swipeY && Math.abs(X - x) - Math.abs(Y - y) < -300) {
+            if (Y - y > 100) {
                 this.style.top = parseInt(moveDistance/3)+ 'px';
                 swipeX = false;
             }
         },
         tEnd: function (event) {
-            this.style.top = 0+ 'px';
-            alert(123)
+                this.style.top = 0+ 'px';
+
         }
     };
 })();
