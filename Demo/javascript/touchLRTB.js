@@ -43,12 +43,12 @@ var carouseltouch = (function () {
                 if (touches.length == 1) { //一个手指在屏幕上
                     var x1 = touches[0].pageX, //移动到的坐标
                         y1 = touches[0].pageY;
-                    if (((x1 + 100) < x) && (Math.abs(y1 - y) < 100)) { //触摸左滑动,Math.abs(y1 - y) 绝对值
+                    if (((x1 + 50) < x) && (Math.abs(y1 - y) < 50)) { //触摸左滑动,Math.abs(y1 - y) 绝对值
                         isMoved = true; //设置为true，手指在屏幕上连续滑动时，后面满足条件的移动不再触发该事件!import
                         //向左切换图片
                         changeImg();
                     }
-                    if (((x1 - 100) > x) && (Math.abs(y1 - y) < 100)) { //触摸右滑动
+                    if (((x1 - 50) > x) && (Math.abs(y1 - y) < 50)) { //触摸右滑动
                         isMoved = true;
                         //向右切换图片
                         dots[i].className = "dot";
@@ -141,7 +141,7 @@ var containertouch = (function () {
             Y = event.changedTouches[0].pageY;
             var moveDistance = Y - y;
             // 上下滑动
-            if (Y - y > 100) {
+            if (Y - y > 50) {
                 this.style.top = parseInt(moveDistance/3)+ 'px';
                 swipeX = false;
             }
