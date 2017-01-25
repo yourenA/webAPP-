@@ -56,9 +56,21 @@ html{
     border: 0;
     height: 0.86667rem;
     line-height: 0.86667rem;
-    padding: 0.233rem 0.93333rem;
+    padding-top: calc((0.86667rem - 13px) / 2);
+    padding-bottom: calc((0.86667rem - 13px) / 2);
+    padding-left:  0.93333rem;
     background: rgb(174, 62, 86) url("../image/search.png") no-repeat 0.24rem center;
     background-size: 0.586667rem;
+}
+[data-dpr="2"] .top-menu .search input {
+    padding-top: calc((0.86667rem - 29px) / 2);
+    padding-bottom: calc((0.86667rem - 29px) / 2);
+
+}
+
+[data-dpr="3"] .top-menu .search input {
+    padding-top: calc((0.86667rem - 39px) / 2);
+    padding-bottom: calc((0.86667rem - 39px) / 2);
 }
 
 .top-menu .mine {
