@@ -91,6 +91,19 @@ document.querySelector('.address').addEventListener('touchend',function (e) {
     }
 },false);
 document.addEventListener('touchend',function (e) {
-    console.log('dc')
-    topArea.style.display='none'
+    console.log('dc');
+    if(topArea.style.display === 'block'){
+        topArea.style.display='none';
+        var tap=document.createElement('div');
+        tap.style.cssText='width:40px;height:40px;border-radius:20px;position:absolute;';
+        var touch = e.changedTouches[0];
+        tap.style.top=(touch.pageY-20) + 'px';
+        tap.style.left=(touch.pageX-20) + 'px';
+        document.body.appendChild(tap);
+
+        setTimeout(function(){
+            document.body.removeChild(tap);
+        }, 500);
+    }
+
 })
