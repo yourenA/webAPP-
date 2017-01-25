@@ -118,3 +118,43 @@ var brandlitouch = (function () {
 brandUl.addEventListener("touchstart", brandlitouch.tStart, false);
 brandUl.addEventListener("touchmove", brandlitouch.tMove, false);
 brandUl.addEventListener("touchend", brandlitouch.tEnd, false);
+
+//顶部下拉事件
+var container = document.querySelector('.container');
+var containertouch = (function () {
+    var x, y, X, Y, swipeX, swipeY;
+    return { //返回对象
+        tStart: function (event) { //获取触摸到屏幕时的坐标
+            if(document.body.scrollTop>0){
+                return false
+            }
+            x = event.changedTouches[0].pageX - this.offsetLeft;
+            y = event.changedTouches[0].pageY - this.offsetTop;
+            swipeX = true;
+            swipeY = true;
+        },
+        tMove: function (event) { //手指在屏幕上移动时触发左/右/上/下滑事件
+            if(document.body.scrollTop>0){
+                return false
+            }
+            X = event.changedTouches[0].pageX;
+            Y = event.changedTouches[0].pageY;
+            var moveDistance = Y - y;
+            // 左右滑动
+            if (swipeX && Math.abs(X - x) - Math.abs(Y - y) > 30) {
+                swipeY = false;
+            }
+            // 上下滑动
+            if (swipeY && Math.abs(X - x) - Math.abs(Y - y) < -300) {
+                this.style.top = parseInt(moveDistance/3)+ 'px';
+                swipeX = false;
+            }
+        },
+        tEnd: function (event) {
+            this.style.top = 0+ 'px';
+        }
+    };
+})();
+container.addEventListener("touchstart", containertouch.tStart, false);
+container.addEventListener("touchmove", containertouch.tMove, false);
+container.addEventListener("touchend", containertouch.tEnd, false);

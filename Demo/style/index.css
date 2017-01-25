@@ -140,6 +140,18 @@ header{
     width: 100%;
     position: relative;
     left: 0;
+    top: 0;
+    transition: top  0.2s;
+    -webkit-transition: top  0.2s;
+}
+.container::before{
+    display: block;
+    position: absolute;
+    top: -200px;
+    background: #00AEE8;
+    height: 200px;
+    width: 100%;
+    content: '';
 }
 /*轮播图*/
 .carousel {
