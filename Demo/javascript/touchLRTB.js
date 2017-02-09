@@ -25,6 +25,7 @@ var carouseltouch = (function () {
     };
     return { //返回对象
         tStart: function (event) { //获取触摸到屏幕时的坐标
+            event.stopPropagation();
             clearInterval(timer); //停止自动滚动图片
             if (isMoved) {
 
@@ -37,6 +38,7 @@ var carouseltouch = (function () {
             }
         },
         tMove: function (event) { //手指在屏幕上移动时触发左/右/上/下滑事件
+            event.stopPropagation();
             event.preventDefault(); //默认事件滚动
             if (!isMoved) { //只有手指第一次在屏幕上滑动时，并且满足响应条件，才触发左/右/上/下滑事件
                 var touches = event.targetTouches;
@@ -69,6 +71,7 @@ var carouseltouch = (function () {
             changeImg();
         },
         tEnd: function () {
+            event.stopPropagation();
             timer = setInterval(carouseltouch.changeImg, 3000); //开启自动切换图片
         }
     };
@@ -91,12 +94,14 @@ var brandlitouch = (function () {
     var x, y, X, Y, swipeX, swipeY;
     return { //返回对象
         tStart: function (event) { //获取触摸到屏幕时的坐标
+            event.stopPropagation();
             x = event.changedTouches[0].pageX - this.offsetLeft;
             y = event.changedTouches[0].pageY - this.offsetTop;
             swipeX = true;
             swipeY = true;
         },
         tMove: function (event) { //手指在屏幕上移动时触发左/右/上/下滑事件
+            event.stopPropagation();
             X = event.changedTouches[0].pageX;
             Y = event.changedTouches[0].pageY;
             var moveDistance = X - x;
@@ -107,6 +112,8 @@ var brandlitouch = (function () {
             }
         },
         tEnd: function (event) {
+            event.stopPropagation();
+            event.preventDefault(); //默认事件滚动
             if (parseInt(this.offsetLeft) > 0) {
                 this.style.left = '0px'
             } else if (parseInt(this.offsetLeft) < parseInt(-(brandUlWidth - document.documentElement.offsetWidth))) {
