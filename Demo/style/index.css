@@ -2,23 +2,110 @@ html{
     width: 100%;
     height: auto;
 }
+
+/*viewport*/
+.viewport{
+    width: 500%;
+    height: 100%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    overflow: hidden;
+    /*pointer-events: none; 去掉这句话*/
+    -webkit-transform: translate3d(0,0,0);
+    backface-visibility: hidden;
+    position: relative;
+}
+.pageview{
+    flex: 0 0 20%;
+    overflow: hidden;
+}
+.pageview h4{
+    margin-top: 50%;
+    text-align: center;
+    font-size: 20px;
+}
+[data-dpr="2"] .pageview h4{
+    font-size: 40px;
+}
+[data-dpr="3"] .pageview h4{
+    font-size: 60px;
+}
 header{
     overflow: hidden;
     width: 100%;
     height: 1.3333rem;
 }
-/*顶部搜索框*/
-.top-menu {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000;
+footer{
+    overflow: hidden;
     width: 100%;
-    height: 1.3333rem;
-    line-height: 1.3333rem;
+    height: 1.4333rem;
+}
+.bottom-menu{
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1.4333rem;
+}
+.bottom-menu ul{
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+.bottom-menu ul li {
+    color: #ffffff;
+    text-align: center;
+    flex: 0 0 20%;
+}
+.bottom-menu ul li i{
+    margin-top: 0.2rem;
+    font-size: 25px;
+}
+.bottom-menu ul li.active{
+    background: rgb(174, 62, 86) ;
+}
+[data-dpr="2"] .bottom-menu ul li i{
+    font-size: 50px;
+}
+[data-dpr="3"] .bottom-menu ul li i{
+    font-size: 75px;
+}
+.bottom-menu ul li div:first-child{
+    width: 100%;
+    height: 60%;
+
+}
+.bottom-menu ul li div:last-child{
+    width: 100%;
+    height: 40%;
+    line-height: normal;
+    font-size: 12px;
+}
+[data-dpr="2"] .bottom-menu ul li div:last-child{
+    font-size: 24px;
+}
+[data-dpr="3"] .bottom-menu ul li div:last-child{
+    font-size: 36px;
+}
+/*顶部搜索框*/
+.top-menu,.bottom-menu {
+    position: fixed;
+    z-index: 1000;
+
     background: rgb(210, 33, 71);
     font-size: 13px;
-
+}
+.top-menu{
+    width: 20%;
+    left: 0;
+    top: 0;
+    height: 1.3333rem;
+    line-height: 1.3333rem;
 }
 
 [data-dpr="2"] .top-menu {
@@ -99,8 +186,8 @@ header{
 .top-area{
     display: none;
     position: fixed;
-    width: 100%;
-    height: 50%;
+    width: 20%;
+    height: 20%;
     background: rgb(174, 62, 86) ;
     top:1.3333rem;
     z-index: 1000;
@@ -134,6 +221,14 @@ header{
     width: 100%;
     padding:0.1333rem;
     text-align: center;
+    font-size: 14px;
+}
+[data-dpr="2"] .top-area-div ul li{
+    font-size: 28px;
+}
+
+[data-dpr="3"] .top-area-div ul li {
+    font-size: 42px;
 }
 /*container*/
 .container {
@@ -461,4 +556,43 @@ header{
     padding-left: 0.32rem;
     background: url("../image/tj-hb.png") no-repeat left center;
     background-size: 0.32rem 0.29333rem;
+}
+
+/*品牌*/
+.brand-content{
+    font-size:0;
+    width: 100%;
+    height: 3.53333rem;
+    overflow: hidden;
+}
+.brand-content>div{
+    vertical-align: top;
+    font-size:0;
+    width: 50%;
+    height: 100%;
+    display: inline-block;
+}
+.brand-item{
+    font-size: 0;
+    width: 100%;
+    overflow: hidden;
+}
+.brand-item a{
+    display: block;
+    font-size:0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.brand-item a img{
+    display: block;
+    font-size:0;
+    width: 100%;
+    height: 100%;
+}
+.brand-big{
+    height: 100%;
+}
+.brand-small{
+    height: 50%;
 }

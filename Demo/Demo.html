@@ -12,41 +12,44 @@
     <script src="javascript/flexible.js"></script>
     <script src="javascript/ajax.js"></script>
     <!--<script type="text/javascript" src="javascript/setDPI.js"></script>-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/reset.css">
     <link rel="stylesheet" href="style/index.css">
 </head>
 <body>
-    <!--顶部搜索框-->
-    <header>
-        <div class="top-menu">
-            <div class="address">
-                <p>宿迁市宿豫区</p>
-            </div><div class="search">
+<div id="viewport" class="viewport">
+    <div  class="pageview">
+        <!--顶部搜索框-->
+        <header>
+            <div class="top-menu">
+                <div class="address">
+                    <p>宿迁市宿豫区</p>
+                </div><div class="search">
                 <input type="text" placeholder="输入商品、店铺等">
             </div><div class="mine">
                 <a href="">我的</a>
             </div>
-        </div>
-    </header>
-    <div class="top-area">
-        <div class="top-area-content">
-            <div class="top-area-div top-area-pro">
-                <ul>
-                </ul>
             </div>
-            <div class="top-area-div top-area-city">
-                <ul>
-                </ul>
+        </header>
+        <div class="top-area">
+            <div class="top-area-content">
+                <div class="top-area-div top-area-pro">
+                    <ul>
+                    </ul>
+                </div>
+                <div class="top-area-div top-area-city">
+                    <ul>
+                    </ul>
+                </div>
+                <div class="top-area-div top-area-county">
+                    <ul>
+                    </ul>
+                </div>
             </div>
-            <div class="top-area-div top-area-county">
-                <ul>
-                </ul>
-            </div>
-        </div>
 
-    </div>
-    <div class="container">
-        <div class="carousel">
+        </div>
+        <div class="container">
+            <div class="carousel">
                 <!--轮播图-->
                 <ul id="list1" >
                     <li><img src="image/sp1.jpg" ></li>
@@ -59,100 +62,128 @@
                     <li class="dot"></li>
                     <li class="dot"></li>
                 </ul>
-        </div>
-        <div class="space"></div>
-        <div class="classification">
-            <ul>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/cy.png" alt="">
-                        </div>
-                        餐饮住宿
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/qc.png" alt="">
-                        </div>
-                        汽车美容
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/sh.png" alt="">
-                        </div>
-                        生活服务
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/tx.png" alt="">
-                        </div>
-                        休闲娱乐
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/jy.png" alt="">
-                        </div>
-                        教育培训
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/jc.png" alt="">
-                        </div>
-                        家居建材
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/js.png" alt="">
-                        </div>
-                        酒水饮料
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <div class="topic-login">
-                            <img src="image/hq.png" alt="">
-                        </div>
-                        婚纱婚庆
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="space"></div>
-        <div class="brand">
-            <ul>
-                <li><a href=""><img src="image/p1.png" alt=""></a></li>
-                <li><a href=""><img src="image/p2.png" alt=""></a></li>
-                <li><a href=""><img src="image/p3.png" alt=""></a></li>
-                <li><a href=""><img src="image/p1.png" alt=""></a></li>
-                <li><a href=""><img src="image/p2.png" alt=""></a></li>
-                <li><a href=""><img src="image/p3.png" alt=""></a></li>
-            </ul>
-        </div>
-        <div class="space"></div>
-        <div class="panicbuy">
-            <a href=""><img src="image/panicbuy.png" alt=""></a>
-        </div>
-        <div class="space"></div>
-        <div class="recommend">
-            <div class="recommend-title">
-                <i></i><h3>综合推荐</h3>
             </div>
-            <div class="recommend-list">
+            <div class="space"></div>
+            <div class="classification">
                 <ul>
                     <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/cy.png" alt="">
+                            </div>
+                            餐饮住宿
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/qc.png" alt="">
+                            </div>
+                            汽车美容
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/sh.png" alt="">
+                            </div>
+                            生活服务
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/tx.png" alt="">
+                            </div>
+                            休闲娱乐
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/jy.png" alt="">
+                            </div>
+                            教育培训
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/jc.png" alt="">
+                            </div>
+                            家居建材
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/js.png" alt="">
+                            </div>
+                            酒水饮料
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <div class="topic-login">
+                                <img src="image/hq.png" alt="">
+                            </div>
+                            婚纱婚庆
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="space"></div>
+            <div class="brand">
+                <ul>
+                    <li><a href=""><img src="image/p1.png" alt=""></a></li>
+                    <li><a href=""><img src="image/p2.png" alt=""></a></li>
+                    <li><a href=""><img src="image/p3.png" alt=""></a></li>
+                    <li><a href=""><img src="image/p1.png" alt=""></a></li>
+                    <li><a href=""><img src="image/p2.png" alt=""></a></li>
+                    <li><a href=""><img src="image/p3.png" alt=""></a></li>
+                </ul>
+            </div>
+            <div class="space"></div>
+            <div class="panicbuy">
+                <a href=""><img src="image/panicbuy.png" alt=""></a>
+            </div>
+            <div class="space"></div>
+
+            <div class="brand-content">
+                <div>
+                    <div class="brand-item brand-big">
+                        <a href=""><img src="./image/b4.jpg" alt=""></a>
+                    </div>
+                </div><div>
+                <div class="brand-item brand-small">
+                    <a href=""><img src="./image/b2.jpg" alt=""></a>
+                </div><div class="brand-item brand-small">
+                <a href=""><img src="./image/b3.jpg" alt=""></a>
+            </div>
+            </div>
+            </div>
+            <div class="brand-content">
+                <div>
+                    <div class="brand-item brand-small">
+                        <a href=""><img src="./image/b1.jpg" alt=""></a>
+                    </div><div class="brand-item brand-small">
+                    <a href=""><img src="./image/b5.jpg" alt=""></a>
+                </div>
+                </div><div>
+                <div class="brand-item brand-big">
+                    <a href=""><img src="./image/b6.jpg" alt=""></a>
+                </div>
+            </div>
+            </div>
+            <div class="space"></div>
+            <div class="recommend">
+                <div class="recommend-title">
+                    <i></i><h3>综合推荐</h3>
+                </div>
+                <div class="recommend-list">
+                    <ul>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a  href="">呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -161,9 +192,9 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        </li>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a >呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -172,9 +203,9 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        </li>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a >呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -183,9 +214,9 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        </li>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a >呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -194,9 +225,9 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        </li>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a >呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -205,9 +236,9 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        </li>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a >呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -216,9 +247,9 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        </li>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a >呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -227,9 +258,9 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
+                        </li>
+                        <li>
+                            <div class="recommend-pic"><a href=""><img src="image/tj-pic.png" alt=""></a></div><div class="recommend-desc">
                             <a >呦呦奶茶</a>
                             <p class="desc">
                                 销售各类散茶、品牌茶叶、茶具。全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商全品一展示茶叶茶具批发商
@@ -238,12 +269,74 @@
                                 剩余领取<span class="count">0</span>份<span class="discount">8.0折</span><span class="red-packet">幸运红包</span>
                             </p>
                         </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+    <div class="pageview" style="background: #58c03b;">
+        <h4>页面-2</h4>
+    </div>
+    <div class="pageview" style="background: #c03b25;">
+        <h4>页面-3</h4>
+    </div>
+    <div class="pageview" style="background: #e0a718;">
+        <h4>页面-4</h4>
+    </div>
+    <div class="pageview" style="background: #c03eac;">
+        <h4>页面-5</h4>
+    </div>
+</div>
+    <footer>
+        <div class="bottom-menu">
+            <ul>
+                <li>
+                    <div>
+                        <i class="fa fa-home"></i>
+                    </div>
+                    <div>
+                        主页
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <div>
+                        消息
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa fa-heart-o"></i>
+                    </div>
+                    <div>
+                        收藏
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa fa-globe"></i>
+                    </div>
+                    <div>
+                        趣事
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div>
+                        我的
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </footer>
     <script src="javascript/touchLRTB.js"></script>
     <script src="javascript/showArea.js"></script>
+<script src="javascript/sliderViewport.js"></script>
 </body>
 </html>
