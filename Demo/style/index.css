@@ -26,6 +26,7 @@ html{
     text-align: center;
     font-size: 20px;
 }
+
 [data-dpr="2"] .pageview h4{
     font-size: 40px;
 }

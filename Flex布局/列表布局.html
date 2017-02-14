@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表布局</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        ul{
+            list-style: none;
+        }
+        .main ul li {
+            height: 60px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .main ul li .vote {
+            display: inline-block;
+            width: 45px;/*有宽度*/
+            height: 40px;
+            text-align: center;
+            overflow: hidden;
+            color: #666;
+        }
+        .main ul li .vote small {
+            display: block;
+        }
+        .main ul li .summary {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;/*没有宽度，设置flex:1.占据剩余所有宽度*/
+            width: 0;/*设置为0 summaryTitle才能显示省略号*/
+        }
+        .main ul li .summary .summaryTitle {
+            height: 20px;
+            margin: 0;
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+            font-size: 14px;
+
+        }
+        .main ul li .summary .user-time {
+            height: 20px;
+            font-size: 14px;
+            color: #999;
+            margin-top:5px ;
+        }
+        .main ul li .view-answers {
+            width: 60px;/*有宽度*/
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main">
+    <ul>
+        <li>
+            <div class="vote"><!-- react-text: 49 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347329">如何将下列代码（noscript）用jquery追加添加到body里面？求解，谢谢！</a>
+                <p class="user-time"><!-- react-text: 54 -->无声<!-- /react-text --><!-- react-text: 55 -->刚刚回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>2</strong><!-- react-text: 58 -->/<!-- /react-text --><!-- react-text: 59 -->
+                32<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 62 -->-1<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008123420">在flash中如何调用JavaScript代码？</a>
+                <p class="user-time"><!-- react-text: 67 -->yuhualingfeng<!-- /react-text --><!-- react-text: 68 -->1 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>2</strong><!-- react-text: 71 -->/<!-- /react-text --><!-- react-text: 72 -->
+                266<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 75 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008339783">js在h5页面上调用支付宝支付？</a>
+                <p class="user-time"><!-- react-text: 80 -->无声<!-- /react-text --><!-- react-text: 81 -->6 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>3</strong><!-- react-text: 84 -->/<!-- /react-text --><!-- react-text: 85 -->
+                191<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 88 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347800">hover函数解绑之后怎么重新再次绑定</a>
+                <p class="user-time"><!-- react-text: 93 -->熊猫桑<!-- /react-text --><!-- react-text: 94 -->7 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>1</strong><!-- react-text: 97 -->/<!-- /react-text --><!-- react-text: 98 -->
+                37<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 101 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347282">下面这一段函数是什么意思呀？</a>
+                <p class="user-time"><!-- react-text: 106 -->无声<!-- /react-text --><!-- react-text: 107 -->14 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>2</strong><!-- react-text: 110 -->/<!-- /react-text -->
+                <!-- react-text: 111 -->69<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 114 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008348425">iframe跨域取值问题</a>
+                <p class="user-time"><!-- react-text: 119 -->sinray<!-- /react-text --><!-- react-text: 120 -->15 分钟前提问
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>0</strong><!-- react-text: 123 -->/<!-- /react-text -->
+                <!-- react-text: 124 -->22<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 127 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008272100">使用EPUB.js如何限制用户可以阅读的章节?</a>
+                <p class="user-time"><!-- react-text: 132 -->veronica_h<!-- /react-text --><!-- react-text: 133 -->19 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>1</strong><!-- react-text: 136 -->/<!-- /react-text -->
+                <!-- react-text: 137 -->60<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 140 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008343866">ng-bind 出现乱码</a>
+                <p class="user-time"><!-- react-text: 145 -->无声<!-- /react-text --><!-- react-text: 146 -->30 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>7</strong><!-- react-text: 149 -->/<!-- /react-text -->
+                <!-- react-text: 150 -->82<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 153 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347763">关于echarts图像中的条形图和饼状图的样式问题</a>
+                <p class="user-time"><!-- react-text: 158 -->Lszh<!-- /react-text --><!-- react-text: 159 -->31 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>3</strong><!-- react-text: 162 -->/<!-- /react-text -->
+                <!-- react-text: 163 -->39<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 166 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347655">怎么设置不管div有多高
+                文字大小都为div高度的90%且垂直居中</a>
+                <p class="user-time"><!-- react-text: 171 -->zx兔子先生<!-- /react-text --><!-- react-text: 172 -->37 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>2</strong><!-- react-text: 175 -->/<!-- /react-text -->
+                <!-- react-text: 176 -->56<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 179 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347922">react组件的ref为固定值和回调函数的区别</a>
+                <p class="user-time"><!-- react-text: 184 -->yt1520406335<!-- /react-text --><!-- react-text: 185 -->40
+                    分钟前提问<!-- /react-text --></p></div>
+            <div class="view-answers"><strong>0</strong><!-- react-text: 188 -->/<!-- /react-text -->
+                <!-- react-text: 189 -->23<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 192 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347683">js可以修改本地文件吗？</a>
+                <p class="user-time"><!-- react-text: 197 -->liujians<!-- /react-text --><!-- react-text: 198 -->50 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>1</strong><!-- react-text: 201 -->/<!-- /react-text -->
+                <!-- react-text: 202 -->39<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 205 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle"
+                                    href="#/question/1010000008347374">跪求大神解答关于lodash中dropWhile方法源码的疑惑</a>
+                <p class="user-time"><!-- react-text: 210 -->边城<!-- /react-text --><!-- react-text: 211 -->57 分钟前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>2</strong><!-- react-text: 214 -->/<!-- /react-text -->
+                <!-- react-text: 215 -->34<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 218 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347531">JavaScript用对象的概念写一个简单的分页</a>
+                <p class="user-time"><!-- react-text: 223 -->o嚄嚄<!-- /react-text --><!-- react-text: 224 -->1 小时前提问
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>0</strong><!-- react-text: 227 -->/<!-- /react-text -->
+                <!-- react-text: 228 -->35<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 231 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008346434">关于javascript提取数字中的整数部分</a>
+                <p class="user-time"><!-- react-text: 236 -->游行<!-- /react-text --><!-- react-text: 237 -->1 小时前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>3</strong><!-- react-text: 240 -->/<!-- /react-text -->
+                <!-- react-text: 241 -->87<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 244 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008347037">electron+vue构建web app如何做到啊。</a>
+                <p class="user-time"><!-- react-text: 249 -->游行<!-- /react-text --><!-- react-text: 250 -->1 小时前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>1</strong><!-- react-text: 253 -->/<!-- /react-text -->
+                <!-- react-text: 254 -->38<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 257 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008346658">通过vagrant使用vbox安装vue init
+                wepack-simple xxx后，执行npm install失败？</a>
+                <p class="user-time"><!-- react-text: 262 -->Awbeci<!-- /react-text --><!-- react-text: 263 -->1 小时前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>1</strong><!-- react-text: 266 -->/<!-- /react-text -->
+                <!-- react-text: 267 -->33<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 270 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008341621">cordova-plugin-wechat的一些疑问</a>
+                <p class="user-time"><!-- react-text: 275 -->dxx2016<!-- /react-text --><!-- react-text: 276 -->1 小时前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>1</strong><!-- react-text: 279 -->/<!-- /react-text -->
+                <!-- react-text: 280 -->55<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 283 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle" href="#/question/1010000008346560">webpack打包遇到的问题</a>
+                <p class="user-time"><!-- react-text: 288 -->pixcai<!-- /react-text --><!-- react-text: 289 -->2 小时前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>2</strong><!-- react-text: 292 -->/<!-- /react-text -->
+                <!-- react-text: 293 -->53<!-- /react-text --></div>
+        </li>
+        <li>
+            <div class="vote"><!-- react-text: 296 -->0<!-- /react-text -->
+                <small>投票</small>
+            </div>
+            <div class="summary"><a class="summaryTitle"
+                                    href="#/question/1010000008346004">fileReader上传的图片如何从服务器再下载到特定位置</a>
+                <p class="user-time"><!-- react-text: 301 -->小_秦<!-- /react-text --><!-- react-text: 302 -->2 小时前回答
+                    <!-- /react-text --></p></div>
+            <div class="view-answers"><strong>1</strong><!-- react-text: 305 -->/<!-- /react-text -->
+                <!-- react-text: 306 -->46<!-- /react-text --></div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
