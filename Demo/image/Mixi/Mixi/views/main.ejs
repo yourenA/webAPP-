@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>【在线订餐系统】—宝将信息科技有限公司</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type='text/css' href='stylesheets/bootstrap.css' />
+<link rel='stylesheet' type='text/css' href='stylesheets/bootstrap-responsive.css' />
+<style type='text/css'>
+.dining_name {display:block; text-align:center; font-size:18px; height:30px; line-height:30px;padding-top:5px;}
+.divider-vertical {float:left;}
+#menuBar li {_float:left; _line-height:40px; _height:30px; _overflow:hidden;}
+.caret {_display:none;}
+
+.span4 {float:left; _margin-left:20px;}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner" style="height:40px; line-height:40px;">
+        <a class="brand" href="javascript:;">订餐系统</a>
+        <ul class="nav pull-right" id='menuBar'>
+
+            <%if (user.isAdmin) {%>
+                <li class="divider-vertical"></li>
+                <li>
+                    <a href='./updateMenu' target="_blank">更新餐厅</a>
+                </li>
+                <li class="divider-vertical"></li>
+                <li>
+                    <a href='./update_priv' target="_blank">更新管理员</a>
+                </li>
+                <li class="divider-vertical"></li>
+                <li>
+                    <a href='./manager/menu'>管理菜单</a>
+                </li>
+            <%}%>
+            <li class="divider-vertical"></li>
+            <li>
+                <a href='./manager/order_food_list/'>订餐报表</a>
+            </li>
+            <li class="divider-vertical"></li>
+            <li>
+                <a href='./manager/list/'>订餐明细</a>
+            </li>
+            <li class="divider-vertical"></li>
+               <li>
+                   <a href='javascript:;'>欢迎您，<span style="color:#3399cc;"><%=user.uName%></span></a>
+               </li>
+              <li class="divider-vertical"></li>
+              <li>
+                  <a href="log_out">退　出</a>
+              </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div class="container" style="position:relative;">
+    <% if (dinner_data) { %>
+        <div class="alert alert-success" style="font-size:18px;"><strong>今天「<%=time_des%>」您已预订：『<%=dinner_data["dining_name"]%>』 <%=dinner_data["food_name"]%> / <%=dinner_data["price"]%>元</strong></div>
+    <% } else { %>
+        <div class="alert alert-error">今天「<%=time_des%>」您还没有预订哦o(∩_∩)o </div>
+    <% } %>
+
+    <% if (is_admin) { %>
+        <div style="position:absolute; right:10px; top:5px;">
+        <% if (is_close) { %>
+        <button class="btn btn-info" id="btn_status">开启「<%=time_des%>」预订</button>
+        <% } else { %>
+        <button class="btn btn-danger" id="btn_status">关闭「<%=time_des%>」预订</button>
+        <% } %>
+        </div>
+    <% } %>
+
+    <div class="row">
+        <%if (mixi_place) {%>
+            <% mixi_place.forEach(function(menu) {%>
+                <div class="span4">
+                    <a href="main/<%= menu[0] %>" class="thumbnail">
+                        <img src="images/dining/<%=menu[0]%>.gif" alt="<%= menu[1] %>">
+                    </a>
+                    <p class="dining_name"><%= menu[1] %></p>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</div>
+
+<script type="text/javascript" src="javascripts/core.js"></script>
+<script src="javascripts/jquery.js"></script>
+<script src="javascripts/ajaxmanager.js"></script>
+<script src="javascripts/bootstrap.js"></script>
+<script src="javascripts/bootstrap-dropdown.js"></script>
+<script type="text/javascript">
+var userModel = {
+    uId : "<%=user.uId%>",
+    uName : "<%=user.uName%>",
+    isAdmin : "<%=user.isAdmin%>"
+};
+
+$('.dropdown-toggle').dropdown();
+
+<% if (is_admin) { %>
+
+var g_isClose = <%=is_close%>;
+$("#btn_status").click(function() {
+    if (g_isClose) {
+        //开启
+        Ajax("../manager/open_order", {data:{}, 'method':'get'}, function(json) {
+            if (json && json.code == "0") {
+                $("#btn_status").removeClass("btn-info").addClass("btn-danger").html("关闭「<%=time_des%>」预订");
+                g_isClose = false;
+            } else {
+                alert(json.msg);
+            }
+        }, function() {
+            alert("请求出错，请联系管理员");
+        });
+    } else {
+        //关闭
+        Ajax("../manager/close_order", {data:{}, 'method':'get'}, function(json) {
+            if (json && json.code == "0") {
+                $("#btn_status").removeClass("btn-danger").addClass("btn-info").html("开启「<%=time_des%>」预订");
+                g_isClose = true;
+            } else {
+                alert(json.msg);
+            }
+        }, function() {
+            alert("请求出错，请联系管理员");
+        });
+    }
+});
+<% } %>
+</script>
+</body>
+</html>

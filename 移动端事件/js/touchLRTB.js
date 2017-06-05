@@ -28,19 +28,20 @@ var mytouch = (function() {
     };
     return { //返回对象
         tStart: function(event) { //获取触摸到屏幕时的坐标
-            if (isMoved) {
+            if (isMoved) {//第一次为true
                 clearInterval(timer); //停止自动滚动图片
                 var touches = event.targetTouches;//获取event.targetTouches对象
-                if (touches.length == 1) {
+                // console.log(event.targetTouches)
+                if (touches.length == 1) {//一个手指在屏幕上
                     x = touches[0].pageX;//获取坐标
                     y = touches[0].pageY;
                 }
                 console.log(x,y)
-                isMoved = false;
+                isMoved = false;//改变isMoved为false
             }
         },
         tMove: function(event) { //手指在屏幕上移动时触发左/右/上/下滑事件
-            event.preventDefault(); //默认事件滚动
+            event.preventDefault(); //阻止默认事件滚动
             if (!isMoved) { //只有手指第一次在屏幕上滑动时，并且满足响应条件，才触发左/右/上/下滑事件
                 var touches = event.targetTouches;
                 if (touches.length == 1) { //一个手指在屏幕上
@@ -48,7 +49,8 @@ var mytouch = (function() {
                         y1 = touches[0].pageY;
                     console.log("x1",x1,"y1",y1)//满足条件才不滑动，所以不满足前会一直打印这个
                     if (((x1 + 30) < x) && (Math.abs(y1 - y) < 20)) { //触摸左滑动,Math.abs(y1 - y) 绝对值
-                        isMoved = true; //设置为true，手指在屏幕上连续滑动时，后面满足条件的移动不再触发该事件!import
+                        isMoved = true;
+                        //设置为true，手指在屏幕上连续滑动时，后面满足条件的移动不再触发该事件，所以只会有几个touchMove事件!import
                         //向左切换图片
                         changeImg();
                     }

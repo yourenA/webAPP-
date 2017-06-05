@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>【在线订餐系统】—宝将信息科技有限公司</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type='text/css' href='../../stylesheets/bootstrap.css' />
+<link rel='stylesheet' type='text/css' href='../../stylesheets/bootstrap-responsive.css' />
+<link rel='stylesheet' type='text/css' href='../../javascripts/datepicker/css/datepicker.css' />
+<style type='text/css'>
+td,th {text-align:center !important;}
+.divider-vertical {float:left;}
+#menuBar li {_float:left; _line-height:40px; _height:30px; _overflow:hidden;}
+
+.query-form label, .query-form input, .query-form select, .query-form button{float:left;}
+.query-form label {height:28px; line-height:28px;}
+.mr_20 {margin-right:20px;}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner" style="height:40px; line-height:40px;">
+        <a class="brand" href="javascript:;">订餐系统</a>
+        <ul class="nav pull-right" id='menuBar'>
+        	<li>
+        		<a href='javascript:;'>欢迎您，<span style="color:#3399cc;"><%=user.uName%></span></a>
+        	</li>
+        	<li class="divider-vertical"></li>
+            <li>
+                <a href="../../main">餐厅列表</a>
+            </li>
+        	<li class="divider-vertical"></li>
+            <li>
+                <a href="../../log_out">退　出</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <div class="alert alert-success">
+        <a class="close" data-dismiss="alert">×</a>
+        <strong>提醒：</strong>如需要查询其它指定日期的午餐、晚餐预订列表，请使用：/manager/list/?queryDate=2013-07-09&ts=0
+        <!--
+        <br />
+        queryDate - 日期
+        <br />
+        ts - (0 - 午餐、1 - 晚餐)
+        <br />
+        d_id - 餐厅ID
+        <br />
+        is_pay - (0 - 未付款、1 - 已付款)
+        -->
+     </div>
+
+     <form class="form-horizontal" method='get' id='formEl'>
+        <div class="control-group">
+            <div class="query-form">
+                <label>餐厅ID ：</label>
+                <input type='text' value='<%=query_data.dId%>' style="width:50px;" class="mr_20" name="d_id" />
+
+                <label>餐名：</label>
+                <select style='width:130px;' name="ts" class="mr_20">
+                    <option value='0' <%if (query_data.ts == "0"){%>selected="selected"<%}%>>午餐</option>
+                    <option value='1' <%if (query_data.ts == "1"){%>selected="selected"<%}%>>晚餐</option>
+                </select>
+
+                <label>查询日期：</label>
+                <input type="text" placeholder="请输入起始日期" name='queryDate' id='queryDate' value="<%=query_data.queryDate%>" style="width:120px;" class="mr_20" />
+
+                <label>付款状态：</label>
+                <select style='width:130px;' name="is_pay" class="mr_20">
+                    <option value='' <%if (query_data.isPay == ""){%>selected="selected"<%}%>>全部</option>
+                    <option value='0' <%if (query_data.isPay == "0"){%>selected="selected"<%}%>>未付款</option>
+                    <option value='1' <%if (query_data.isPay == "1"){%>selected="selected"<%}%>>已付款</option>
+                </select>
+
+                <button class="btn btn-default" type="submit">查　询</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>姓名</th>
+              <th>日期</th>
+              <th>餐名</th>
+              <th>套餐/饭菜</th>
+              <th>价格</th>
+              <th>餐厅</th>
+              <th>ip地址</th>
+              <th>是否付款</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <%var g_totalPrice = 0;%>
+            <%if (list_data.length > 0) {%>
+                <% for (var i = 0, len = list_data.length; i < len; i++) {%>
+                    <%var idx = i + 1; data = list_data[i]; g_totalPrice += data.price;%>
+                    <tr>
+                        <td><%=idx%></td>
+                        <td><%=data.uname%></td>
+                        <td><%=new Date(data.d_date).format("YYYY-MM-dd")%></td>
+                        <td><%if (data.ts == 0) {%>午餐<%} else {%>晚餐<%}%></td>
+                        <td><%=data.food_name%></td>
+                        <td><%=data.price%></td>
+                        <td><%=data.dining_name%></td>
+                        <td><%=data.ip%></td>
+                        <%if (data.is_pay == 0) {%>
+                            <%if(user.isAdmin) {%>
+                            <td><button class="btn btn-info" onclick="payHandler(this)" data-id="<%=data.n_id%>">付款</button></td>
+                            <%} else {%>
+                            <td style="background-color:#c00">未付款</td>
+                            <%}%>
+                        <%} else {%>
+                            <td style="background-color:#51A351">已付款</td>
+                        <%}%>
+                    </tr>
+                <%}%>
+            <%} else {%>
+                <tr><td colspan="9">暂无相关数据</td></tr>
+            <%}%>
+
+          </tbody>
+          <%if (list_data.length > 0) {%>
+          <tfoot>
+            <tr style="background-color:#ddd"><td colspan="9" style="text-align:right !important; padding-right:10px; font-size:16px;">总价：<%=g_totalPrice%></td></tr>
+          </tfoot>
+          <%}%>
+    </table>
+</div>
+
+<script type="text/javascript" src="../../javascripts/core.js"></script>
+<script src="../../javascripts/jquery.js"></script>
+<script src="../../javascripts/ajaxmanager.js"></script>
+<script src="../../javascripts/datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+function payHandler(_this) {
+    var nId = _this.getAttribute("data-id");
+
+    Ajax("../../pay", {data:{nid : nId}, 'method':'post'}, function(json) {
+        if (json && json.code == "0") {
+           $(_this).parent().html("已付款").css("background-color", "#51A351");
+        } else {
+            alert(json.msg);
+        }
+    }, function() {
+        alert("请求出错，请联系管理员");
+    });
+}
+
+
+$('#queryDate').datepicker({
+	onRender: function(date) {
+	    var curr_date = <%= new Date().getTime()%>;
+		return date.valueOf() > curr_date ? 'disabled' : '';
+	},
+	format : 'yyyy-mm-dd'
+}).on('changeDate', function(ev) {
+	//ev.date.valueOf()
+}).data('datepicker')
+
+</script>
+
+</body>
+</html>

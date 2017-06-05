@@ -4,8 +4,10 @@ function loaded() {
 	//动画部分
 	pullDownEl = document.getElementById('pullDown');
 	pullDownOffset = pullDownEl.offsetHeight;
-	pullUpEl = document.getElementById('pullUp');	
+	console.log("pullDownOffset",pullDownOffset)
+	pullUpEl = document.getElementById('pullUp');
 	pullUpOffset = pullUpEl.offsetHeight;
+	console.log("pullUpOffset",pullUpOffset)
 	myScroll = new iScroll('wrapper', {
 		useTransition: true,
 		topOffset: pullDownOffset,
@@ -54,6 +56,15 @@ function loaded() {
 	loadAction();
 }
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);//阻止冒泡
+/**
+ * 浏览器渲染页面DOM文档加载的步骤：
+ *  1.解析HTML结构。
+ *  2.加载外部脚本和css文件。
+ *  3.解析并执行脚本代码。
+ *  4.DOM树构建完成。(此时会触发DOMContentLoaded事件)
+ *  5.加载外部图片等文件。
+ *  6.页面加载完毕。(此时会触发load事件)
+ * */
 document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 0); }, false);
 
 //初始状态，加载数据

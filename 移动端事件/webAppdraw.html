@@ -31,7 +31,7 @@
             startX, startY, endX, endY, sx, sy;
     //设置画布的宽高为视口的宽高
     canID.width = cWidth;
-    canID.height = cHeight;
+    canID.height = cHeight-50;
 
     function handler(event) {
         switch (event.type) {
@@ -55,7 +55,7 @@
                         if (canID.getContext) {
                             //清楚画布上的矩形区域
                             var ctx = canID.getContext("2d");
-                            ctx.clearRect(0, 0, cWidth, cHeight);
+                            ctx.clearRect(0, 0, cWidth, cHeight-50);
                         }
                     }
                 }
@@ -81,7 +81,7 @@
                             //以上一次touchmove事件的位置为起点绘制线条
                             endX = touches[0].pageX;
                             endY = touches[0].pageY;
-                            ctx.moveTo(sx, sy);
+                            ctx.moveTo(sx, sy);//上一个的终点
                             ctx.lineTo(endX, endY);
                             ctx.stroke();
                         }

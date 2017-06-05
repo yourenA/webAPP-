@@ -17,10 +17,6 @@
 ```
 "添加到主屏幕“后，全屏显示 <meta name="apple-mobile-web-app-capable" content="yes" />
 这meta的作用就是删除默认的苹果工具栏和菜单栏。content有两个值”yes”和”no”,当我们需要显示工具栏和菜单栏时，这个行meta就不用加了，默认就是显示。
-```
-* 当网站添加到主屏幕快速启动方式，可隐藏地址栏，仅针对ios的safari
-```
-<meta name="apple-mobile-web-app-capable" content="yes" />
 <!-- ios7.0版本以后，safari上已看不到效果 -->
 ```
 * 将网站添加到主屏幕快速启动方式，仅针对ios的safari顶端状态条的样式
@@ -171,7 +167,7 @@ target：当前元素
 * MSPointerUp——当手指离开屏幕时触发
 
 ###移动端click屏幕产生200-300 ms的延迟响应
-移动设备上的web网页是有300ms延迟的，玩玩会造成按钮点击延迟甚至是点击失效。
+移动设备上的web网页是有300ms延迟的，往往会造成按钮点击延迟甚至是点击失效。
 解决方案：
 
 * fastclick可以解决在手机上点击事件的300ms延迟
@@ -416,7 +412,7 @@ window.onorientationchange = function(){
         var recalc=function() { //事件回调
             var clientWidth = docEl.clientWidth;//document的宽度
             if (!clientWidth) return;
-            docEl.style.fontSize = 100 * (clientWidth / 320) + 'px'; //改变document（既HTML标签）的fontSize字号
+            docEl.style.fontSize = 20 * (clientWidth / 320) + 'px'; //改变document（既HTML标签）的fontSize字号
         };
         /*监听事件*/
         if (!doc.addEventListener) return;

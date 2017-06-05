@@ -1,0 +1,8 @@
+{
+    "dbName" : "mixi",
+    "uName" : "root",
+    "uPwd" : "123456",
+    "dbHost" : "localhost",
+    "dbPort" : 3306,
+    "secretName" : "__mixi__"
+}

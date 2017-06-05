@@ -162,7 +162,6 @@
             float: left;
             width: 40px;
             height: 40px;
-            background: url(img/pull-icon@2x.png) 0 0 no-repeat;
             -webkit-background-size: 40px 80px;
             background-size: 40px 80px;
             -webkit-transition-property: -webkit-transform;
@@ -247,7 +246,7 @@
 <div id="footer"></div>
 
 </body>
-<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <script src="iscroll-probe.js"></script>
 <script>
     var myScroll;
@@ -309,7 +308,6 @@
 
         myScroll = new IScroll('#content', {
             probeType: 2,//probeType：1对性能没有影响。在滚动事件被触发时，滚动轴是不是忙着做它的东西。probeType：2总执行滚动，除了势头，反弹过程中的事件。这类似于原生的onscroll事件。probeType：3发出的滚动事件与到的像素精度。注意，滚动被迫requestAnimationFrame（即：useTransition：假）。
-            scrollbars: true,//有滚动条
             mouseWheel: true,//允许滑轮滚动
             fadeScrollbars: true,//滚动时显示滚动条，默认影藏，并且是淡出淡入效果
             bounce: true,//边界反弹
@@ -318,7 +316,6 @@
             click: true,// 允许点击事件
             keyBindings: true,//允许使用按键控制
             momentum: true,// 允许有惯性滑动
-            preventDefault: false,//允许页面左击
             preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }
         });
         //滚动时
@@ -432,8 +429,5 @@
     $(document).on("mousedown" ,"#add li",mylitouch.tStart);
     $(document).on("mousemove","#add li" ,mylitouch.tMove);
     $(document).on("mouseup", "#add li",mylitouch.tEnd);
-    $(document).on('touchmove', function (event) {
-        event.preventDefault();
-    });
 </script>
 </html>

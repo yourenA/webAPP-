@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>【在线订餐系统】—宝将信息科技有限公司</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type='text/css' href='../stylesheets/bootstrap.css' />
+<link rel='stylesheet' type='text/css' href='../stylesheets/bootstrap-responsive.css' />
+<style type='text/css'>
+.dining_name {display:block; text-align:center; font-size:18px; height:30px; line-height:30px;padding-top:5px;}
+option {height:25px;}
+.divider-vertical {float:left;}
+#menuBar li {_float:left; _line-height:40px; _height:30px; _overflow:hidden;}
+
+.th {background-color:#3A87AD; color:#fff; font-size:14px;}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner" style="height:40px; line-height:40px;">
+        <a class="brand" href="javascript:;">订餐系统</a>
+        <ul class="nav pull-right" id='menuBar'>
+        	<li>
+        		<a href='javascript:;'>欢迎您，<span style="color:#3399cc;"><%=user.uName%></span></a>
+        	</li>
+        	<li class="divider-vertical"></li>
+            <li>
+                <a href="../main">餐厅列表</a>
+            </li>
+        	<li class="divider-vertical"></li>
+            <li>
+                <a href="../log_out">退　出</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+<form class="form-horizontal" onsubmit="return false;">
+  <fieldset>
+    <legend>菜单管理</legend>
+    <div class="control-group">
+        <label class="control-label" for="xx">请选择一家餐厅：</label>
+        <div class="controls">
+          <select id="sel_list" style="width:200px;">
+                <option value="">请选择一家餐厅</option>
+                <%if (menu_data) {%>
+                    <%for (var key in menu_data) {%>
+                        <%var menu = menu_data[key];%>
+                        <option value="<%=key%>"><%=menu.name%></option>
+                    <%}%>
+                <%}%>
+          </select>
+          <button type="submit" class="btn" style='margin-left:10px; margin-right:100px;' id='btn_load_menu'>确定</button>
+           <button class="btn btn-info" id="btn_add_dining">新增餐厅</button>
+        </div>
+      </div>
+  </fieldset>
+</form>
+</div>
+
+<div class="container">
+    <table class="table table-bordered">
+        <!--
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>#</th>
+        </tr>
+      </thead>
+      -->
+      <tbody>
+          <tr>
+            <td>菜单名</td>
+            <td><input type='text' value='' id="ipt_menu_name" />
+            <button class="btn btn-success" style='float:right; margin-left:30px;' id="btn_save">保存菜单</button>
+            <button class="btn btn-danger" style='float:right;' id="btn_del">删除菜单</button></td>
+          </tr>
+          <tr>
+              <td>菜单id</td>
+              <td><input type='text' value='' id="ipt_menu_id" /></td>
+            </tr>
+          <tr>
+              <td>菜单状态</td>
+              <td><input type='checkbox' value='1' id="chk_menu" style="float:left;"/><label for="chk_menu" style="float:left;">已启用</label></td>
+            </tr>
+            <tr>
+              <td>餐厅电话</td>
+              <td><input type='text' value='' id="ipt_tel" style="width:200px"/></td>
+            </tr>
+      </tbody>
+  </table>
+</div>
+
+<div class="container">
+<table class="table table-bordered" id="table_menus_data">
+      <thead>
+        <tr>
+          <th class="th">菜单名</th>
+          <th class="th">价格</th>
+          <th class="th"><button class="btn btn-success" id="btn_add_row">新增一行</button></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+</div>
+
+<script type="text/javascript" src="../javascripts/core.js"></script>
+<script src="../javascripts/jquery.js"></script>
+<script src="../javascripts/ajaxmanager.js"></script>
+<script src="../javascripts/json.js"></script>
+<script type='text/javascript'>
+var g_menuConfig = {};
+
+<%if (menu_data) {%>
+    <%for (var key in menu_data) {%>
+        <%var menu = menu_data[key];%>
+        g_menuConfig["<%=key%>"] = {
+            id : "<%=menu.id%>",
+            name : "<%=menu.name%>",
+            tel : "<%=menu.tel%>",
+            status : "<%=menu.status%>",
+            menus : {}
+        };
+        <%for (menu_name in menu.menus) {%>
+            g_menuConfig["<%=key%>"]["menus"]["<%=menu_name%>"] = "<%=menu.menus[menu_name]%>";
+        <%}%>
+    <%}%>
+<%}%>
+
+var g_currMenuData;
+$("#btn_load_menu").click(function() {
+    var val = $("#sel_list").get(0).value;
+
+    if (!val) {
+        alert("请先选择一家餐厅");
+        return false;
+    }
+
+    g_currMenuData = g_menuConfig[val];
+
+    $("#ipt_menu_name").val(g_currMenuData.name);
+    $("#ipt_menu_id").val(g_currMenuData.id);
+
+    if (g_currMenuData.status == "1") {
+        $("#chk_menu").attr("checked", true);
+    } else {
+        $("#chk_menu").removeAttr("checked");
+    }
+
+    $("#ipt_tel").val(g_currMenuData.tel);
+    clearMenusListDataHandler();
+
+    var tbodyEl = $("#table_menus_data").find("tbody");
+    var menuData = g_currMenuData.menus;
+    for (var k in menuData) {
+        tbodyEl.append([
+            "<tr>",
+                "<td><input type='text' value='"+k+"' name='g_ipt_menu_name' /></td>",
+                "<td><input type='text' value='"+menuData[k]+"' name='g_ipt_menu_price' /></td>",
+                "<td><button class='btn btn-danger' onclick='delRowHandler(this)'>删除</button></td>",
+            "</tr>"
+        ].join(''));
+    }
+});
+
+$("#btn_add_row").click(function() {
+    $("#table_menus_data").find("tbody").append([
+        "<tr>",
+            "<td><input type='text' value='' name='g_ipt_menu_name' /></td>",
+            "<td><input type='text' value='' name='g_ipt_menu_price' /></td>",
+            "<td><button class='btn btn-danger' onclick='delRowHandler(this)'>删除</button></td>",
+        "</tr>"
+    ].join(''));
+});
+
+function delRowHandler(_this) {
+    $(_this).parent().parent().remove();
+}
+
+function clearMenusListDataHandler() {
+    $("#table_menus_data").find("tbody").empty();
+}
+
+$("#btn_add_dining").click(function() {
+    g_currMenuData = null;
+
+    $("#ipt_menu_name").val("").focus();
+    $("#ipt_menu_id").val("");
+    $("#chk_menu").attr("checked", true);
+    $("#ipt_tel").val("");
+    clearMenusListDataHandler();
+
+    g_currMenuData = {};
+});
+
+$("#btn_del").click(function() {
+    if (!g_currMenuData) {
+        alert("请先选择一家餐厅再执行删除");
+        return false;
+    }
+    if (confirm("您确定要删除餐厅【"+g_currMenuData.name+"】吗？")) {
+        Ajax("./delMenu", {data:{m_id : g_currMenuData.id}, 'method':'get'}, function(json) {
+            if (json && json.code == "0") {
+                alert("操作成功");
+                document.location.reload();
+            } else {
+                alert(json.msg);
+            }
+        }, function() {
+            alert("请求出错，请联系管理员");
+        });
+    }
+});
+
+$("#btn_save").click(function() {
+    if (!g_currMenuData) {
+        alert("请先选择一家餐厅再执行保存");
+        return false;
+    }
+
+    var o = {
+        id : FWK.trim($("#ipt_menu_id").val()),
+        name : FWK.trim($("#ipt_menu_name").val()),
+        tel : FWK.trim($("#ipt_tel").val()),
+        status : document.getElementById("chk_menu").checked ? "1" : "0",
+        menus : {}
+    };
+
+    if (!o.id) {
+        alert("菜单ID不能为空");
+        $("#ipt_menu_id").get(0).select();
+        return false;
+    }
+
+    if (!o.name) {
+        alert("菜单名不能为空");
+        $("#ipt_menu_name").get(0).select();
+        return false;
+    }
+
+    var iptMenuNames = document.getElementsByName("g_ipt_menu_name");
+    var iptMenuPrices = document.getElementsByName("g_ipt_menu_price");
+
+    for (var i = 0, len = iptMenuNames.length; i < len; i++) {
+        var menuName = FWK.trim(iptMenuNames[i].value);
+        var menuPrice = FWK.trim(iptMenuPrices[i].value);
+
+        if (menuName && menuPrice) {
+            if (/^\d+$/.test(menuPrice)) {
+                o['menus'][menuName] = menuPrice;
+            } else {
+                alert("菜单价格只能为数字");
+                iptMenuPrices[i].select();
+                return ;
+            }
+        } else if (menuName == "" && menuPrice == "") {
+
+        } else {
+            alert("有菜单数据不完整");
+            if (iptMenuNames[i].value) {
+                iptMenuNames[i].select();
+            } else {
+                iptMenuPrices[i].select();
+            }
+            return false;
+        }
+    }
+
+    Ajax("./saveMenu", {data:{m_id : o.id, m_content: JSON.stringify(o)}, 'method':'POST'}, function(json) {
+        if (json && json.code == "0") {
+            alert("操作成功");
+            document.location.reload();
+        } else {
+            alert(json.msg);
+        }
+    }, function() {
+        alert("请求出错，请联系管理员");
+    });
+});
+
+</script>
+</body>
+</html>

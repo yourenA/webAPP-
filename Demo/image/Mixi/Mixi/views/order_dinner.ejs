@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>【在线订餐系统】—宝将信息科技有限公司</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type='text/css' href='../stylesheets/bootstrap.css' />
+<link rel='stylesheet' type='text/css' href='../stylesheets/bootstrap-responsive.css' />
+<style type='text/css'>
+.dining_name {display:block; text-align:center; font-size:18px; height:30px; line-height:30px;padding-top:5px;}
+option {height:25px;}
+.divider-vertical {float:left;}
+#menuBar li {_float:left; _line-height:40px; _height:30px; _overflow:hidden;}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner" style="height:40px; line-height:40px;">
+        <a class="brand" href="javascript:;">订餐系统</a>
+        <ul class="nav pull-right" id='menuBar'>
+        	<li>
+        		<a href='javascript:;'>欢迎您，<span style="color:#3399cc;"><%=user.uName%></span></a>
+        	</li>
+        	<li class="divider-vertical"></li>
+            <li>
+                <a href="../main">餐厅列表</a>
+            </li>
+        	<li class="divider-vertical"></li>
+            <li>
+                <a href="../log_out">退　出</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container" style="border:1px solid #fff; padding:5px; margin-bottom:10px;">
+
+<% if (dinner_data) { %>
+    <div class="alert alert-success" style="font-size:18px;"><strong>今天「<%=time_des%>」您已预订：『<%=dinner_data["dining_name"]%>』 <%=dinner_data["food_name"]%> / <%=dinner_data["price"]%>元</strong></div>
+<% } %>
+
+<form class="form-horizontal" onsubmit="return false;">
+<fieldset>
+<legend>餐厅 - <%= menus_config.name%><% if(is_close) { %><span style="padding-left:50px; color:#c00">【订餐系统已关闭】</span><%} else {%><span style="padding-left:50px; color:#406c99">【订餐系统已开启】</span><%}%></legend>
+<div class="control-group">
+  <div class="controls pull-left" style="margin-left:0; margin-right:80px;">
+    <select id="menus_select" name="menus_select" class="input-xlarge" size="20" style="width:400px;height:420px;">
+        <%if (menus_config) {%>
+            <% for (key in menus_config.menus) { %>
+                <option date-price="<%=menus_config.menus[key]%>" date-menuName="<%= key %>"><%= key %> (￥<%=menus_config.menus[key]%>/份)</option>
+            <%}%>
+        <% } %>
+    </select>
+  </div>
+  <button class="btn btn-success pull-left" style="margin-right:80px;" id="btn_select" <% if(is_close) { %>disabled="disabled"<% } %>><%=time_des%>&gt;&gt;</button>
+  <div class="pull-left" style="border:1px solid #ccc; height:400px; width:260px; padding-left:20px; padding-top:20px;">
+        <p id="food_name" style="font-size:18px; height:30px; line-height:30px; margin-right:10px;" class="pull-left">...</p>
+        <div style="height:0; line-height:0; overflow:hidden; visibility:visable; clear:both; display:block;"></div>
+        <button class="btn btn-success pull-left" style="margin-right:10px;" id="btn_order" <% if(is_close) { %>disabled="disabled"<% } %>>订　餐</button>
+        <button class="btn btn-danger pull-left" style="margin-right:10px;" id="btn_cancel" <% if(is_close) { %>disabled="disabled"<% } %>>取消订餐</button>
+  </div>
+</div>
+</fieldset>
+</form>
+</div>
+
+<script type="text/javascript" src="../javascripts/core.js"></script>
+<script src="../javascripts/jquery.js"></script>
+<script src="../javascripts/ajaxmanager.js"></script>
+<script src="../javascripts/bootstrap.js"></script>
+<script src="../javascripts/bootstrap-dropdown.js"></script>
+
+<script type="text/javascript">
+var g_dId = "<%=d_id%>";
+var userModel = {
+    uId : "<%=user.uId%>",
+    uName : "<%=user.uName%>",
+    isAdmin : "<%=user.isAdmin%>"
+};
+var g_selectFood = {};
+
+$('.dropdown-toggle').dropdown();
+
+$("#btn_select").click(function() {
+    var selectEl = $('#menus_select').get(0);
+    var idx = selectEl.selectedIndex;
+
+    g_selectFood = {};
+
+    if (idx < 0) {
+        alert("请选择要预订的菜单^_^");
+        return false;
+    } else {
+        var opt = selectEl.options[idx];
+        var price = opt.getAttribute("date-price");
+        var menuName = opt.getAttribute("date-menuName");
+
+        g_selectFood = {n : menuName, p : price};
+
+        $("#food_name").html(menuName);
+
+        $("#btn_order").removeAttr("disabled");
+    }
+});
+
+//订餐
+$("#btn_order").click(function() {
+    var menuName = g_selectFood["n"], price = g_selectFood["p"];
+
+    if (!menuName || !price) {
+        alert("请先选择要预订的套餐/饭");
+        return false;
+    }
+
+    Ajax("../orderFood", {data:{uId : "<%=user.uId%>", uName : "<%=user.uName%>", menuName : menuName, menuPrice : price, dId : "<%=d_id%>"}, 'method':'post'}, function(json) {
+        if (json && json.code == "0") {
+            alert("恭喜您，订餐成功。");
+            //orderSuccCallback();
+            document.location.reload();
+        } else {
+            alert(json.msg);
+
+            if (json.code == "100") {
+                //orderSuccCallback();
+                document.location.reload();
+            }
+        }
+    }, function() {
+        alert("请求出错，请联系管理员");
+    });
+
+    return false;
+});
+
+function orderSuccCallback() {
+    $("#btn_select, #btn_order").attr("disabled", "disabled");
+    $("#btn_cancel").removeAttr("disabled");
+}
+
+function cancelOrderSuccCallback() {
+    $("#btn_select, #btn_order").removeAttr("disabled");
+    $("#btn_cancel").attr("disabled", "disabled");
+
+    $(".alert-success").fadeOut();
+}
+
+//取消订餐
+$("#btn_cancel").click(function() {
+    Ajax("../cancelOrder", {data:{}, 'method':'post'}, function(json) {
+        if (json && json.code == "0") {
+            alert("订餐已取消");
+            cancelOrderSuccCallback();
+        } else {
+            alert(json.msg);
+
+            if (json.code == "-1") {
+                cancelOrderSuccCallback();
+            }
+        }
+    }, function() {
+        alert("请求出错，请联系管理员");
+    });
+
+    return false;
+});
+
+
+!(function() {
+    var dinner_data = null;
+    <% if(dinner_data) { %>
+        dinner_data = {};
+        <% for (var key in dinner_data) { %>
+            <% if (/(n_id|uid|uname|d_date|d_create|ts|food_name|price|dining_id|dining_name|ip)/.test(key)) { %>
+                dinner_data["<%= key%>"] = "<%= dinner_data[key] %>";
+            <% } %>
+        <% } %>
+    <% } %>
+
+    if (dinner_data) {
+        if (dinner_data["dining_id"] == g_dId) {
+            g_selectFood = {n : dinner_data["food_name"], p : dinner_data["price"]};
+            $("#food_name").html(dinner_data["food_name"]);
+            <% if (!is_close) { %>
+            orderSuccCallback();
+            <% } %>
+        } else {
+            <% if (!is_close) { %>
+            orderSuccCallback();
+            <% } %>
+        }
+    } else {
+        $("#btn_cancel, #btn_order").attr("disabled", "disabled");
+    }
+})();
+
+</script>
+</body>
+</html>

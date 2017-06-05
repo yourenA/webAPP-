@@ -48,7 +48,6 @@
             height: 2.5rem;
             line-height: 2.5rem;
             padding: 0 0.5rem;
-
         }
     </style>
 </head>
@@ -80,14 +79,16 @@
         var x, y, X, Y, swipeX, swipeY, moveX, offsetL;
         return { //返回对象
             tStart: function (event) { //获取触摸到屏幕时的坐标
+                console.log(event.type)
                 if (event.type === 'touchstart') {
+                    console.log(event)
                     x = event.changedTouches[0].pageX - this.offsetLeft;
                     y = event.changedTouches[0].pageY - this.offsetTop;
                 } else if (event.type === 'mousedown') {
                     x = event.clientX;
                     y = event.clientY;
                 }
-                swipeX = true;
+                swipeX = true;//每次按下的时候重新赋值为true
                 swipeY = true;
                 console.log("this.offsetLeft",this.offsetLeft)
             },
@@ -99,7 +100,7 @@
                     // 左右滑动
                     if (swipeX && Math.abs(X - x) - Math.abs(Y - y) > 30) {
                         this.style.left = moveDistance+ 'px';
-                        swipeY = false;
+                        swipeY = false;//满足条件后赋值为false
                     }
 
                     // 上下滑动
@@ -112,6 +113,7 @@
             },
             tEnd: function (event) {
                 if (event.type === 'touchend') {
+                    console.log("this.offsetLeft",this.offsetLeft);
                     if (parseInt(this.offsetLeft) > 0) {
                         this.style.left = '0px'
                     } else if (parseInt(this.offsetLeft) < parseInt(-(ulWidth - document.documentElement.offsetWidth))) {

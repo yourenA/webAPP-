@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>登录 —【在线订餐系统】—宝将信息科技有限公司</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+<body>
+<form class="form" action="/" method="post" onsubmit="return checkForm();">
+	<div class="modal-dialog-title" style="position:relative;">
+		<h3>登录订餐系统</h3><span class="tip_normal" id="login_tip" style='display:none;'></span>
+	</div>	
+	<div class="modal-dialog-content">
+	    <% if (user && user.uId) { %>
+            <p style="position:relative"><label for="user_pt">帐　　号：</label><span style="display:inline-block; width:220px; text-align:left;"><%= user.uId %></span><a href="logout" class="re_login" title="切换使用另一帐号">更换帐号</a></p>
+            <input type="hidden" style="width:200px;" id="user_pt" name="upt" class="ipt" maxLength="20" value="<%= user.uId %>" />
+        <% } else { %>
+        <p><label for="user_pt">帐　　号：</label><input type="text" style="width:200px;" id="user_pt" name="upt" class="ipt" maxLength="20" /><i>*</i></p>
+        <% } %>
+		<p><label for="user_pwd">密　　码：</label><input type="password" style="width:200px;" id="user_pwd" class="ipt" maxLength="20" name="upwd" value='' /><i>*</i></p>
+	</div>
+	<div class="modal-dialog-buttons">
+		<input type="submit" value="登　录" class="s_btn" id="submitBtn" onmousedown="this.className='s_btn s_btn_h'" onmouseout="this.className='s_btn'">
+	</div>
+</form>
+
+<script type="text/javascript" src="javascripts/core.js"></script>
+<script src="javascripts/jquery.js"></script>
+<script src="javascripts/ajaxmanager.js"></script>
+<script type="text/javascript">
+//检测用户身份
+window.onload = function() {
+	var uIpt = FWK.$("user_pt");
+	
+	if (uIpt.type === "hidden" || uIpt.value != "") {
+		FWK.$("user_pwd").focus();
+	} else {
+		uIpt.focus();
+	}
+}
+
+function setError(msg) {
+	if (setError._timer) {
+		clearTimeout(setError._timer);
+		setError._timer = null;
+	}
+	
+	var el = FWK.$('login_tip');
+	el.className = "tip_error";
+	el.innerHTML = msg;
+	el.style.display = "inline";
+
+	setError._timer = setTimeout(function() {
+		$("#login_tip").fadeOut();
+	}, 2 * 1000);
+}
+setError._timer = null;
+
+function setInfo(msg) {
+	if (setError._timer) {
+		clearTimeout(setError._timer);
+		setError._timer = null;
+	}
+	
+	var el = FWK.$('login_tip');
+	el.className = "tip_normal";
+	el.innerHTML = msg;
+	el.style.display = "inline";
+}
+setError._timer = null;
+
+FWK.$("user_pt").onkeydown = FWK.$("user_pwd").onkeydown = function() {
+	FWK.$('login_tip').style.display = "none";
+}
+
+//从url获取帐号信息
+function initAccout() {
+
+}
+
+function clearAccout() {
+	FWK.$("user_pt").value = "";
+	FWK.$("user_pwd").value = "";
+}
+
+function checkForm() {
+	if (FWK.$('submitBtn').getAttribute('disabled') == true) {
+		return false;
+	}
+	
+	var uid = FWK.$("user_pt").value;
+	var upd = FWK.$("user_pwd").value;
+
+	uid = FWK.trim(uid);
+	upd = FWK.trim(upd);
+
+	if (uid == "") {
+		setError('请输入你的RTX帐号');
+		FWK.$("user_pt").select();
+		return false;
+	}
+
+	if (upd == "") {
+		setError("请输入密码");
+		FWK.$("user_pwd").select();
+		return false;
+	}
+
+	if (upd.length < 3) {
+		setError('密码格式有误');
+		return false;
+	}
+
+	var upt = uid;
+	var upwd = upd;
+
+	setInfo("正在验证，请稍后...");
+
+	FWK.$('submitBtn').setAttribute('disabled', true);
+	
+	Ajax("login", {data:{'pt': upt, 'pwd':upd}, 'method':'post'}, function(json) {
+		FWK.$('submitBtn').removeAttribute('disabled');
+		
+		if (json && json.code == "0") {
+			setInfo('登录成功');
+
+			var toUrl = FWK.getParam('toUrl') || "main";
+			
+			document.location.href = toUrl;
+		} else {
+			setError(json.msg);
+		}
+	}, function() {
+		FWK.$('submitBtn').removeAttribute('disabled');
+		
+		setError("请求出错，请联系管理员");
+	});
+	
+	return false;
+}
+</script>
+</body>
+</html>
